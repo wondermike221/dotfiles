@@ -1,0 +1,96 @@
+# ~/.config/starship.toml
+
+format = """
+[$directory](bold green)($git_branch$git_state$git_status)
+$time $hostname $username [╬╗](bold green) """
+
+[character]
+error_symbol = "[Γ¥î](bold red) "
+success_symbol = "[ΓÜí](bold green)" 
+
+[cmd_duration]
+min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
+format = " took [$duration]($style)"
+
+[conda]
+symbol = "∩äî "
+
+[directory]
+read_only = " ∩á╜"
+truncation_length = 2
+truncate_to_repo = false
+format = "[$path]($style)[$lock_symbol]($lock_style) "
+style = "bold green"
+
+[docker_context]
+symbol = "∩îê "
+
+[git_branch]
+symbol = "∩Éÿ "
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = "≡ƒöû "
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = "[≡ƒìÆ PICKING](bold red)"
+
+[git_status]
+format = ' ([\[$conflicted$deleted$renamed$modified$staged$untracked$ahead_behind\]]($style))'
+conflicted = "≡ƒÅ│"
+ahead = "Γçí${count}"
+behind = "Γçú${count}"
+diverged = "ΓçòΓçí${ahead_count}Γçú${behind_count}"
+# up_to_date = "Γ£ô"
+# untracked = "≡ƒñ╖"
+# stashed = "≡ƒôª"
+# modified = "≡ƒô¥"
+staged = '[++\($count\)](green)'
+# renamed = "≡ƒæà"
+deleted = "≡ƒùæ"
+
+[hostname]
+ssh_only = false
+format = "[≡ƒö╖ $hostnameΓäó]($style)"
+style = "bold white"
+
+[java]
+symbol = "εëû "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[julia]
+symbol = "εÿñ "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[lua]
+symbol = "εÿá "
+
+[memory_usage]
+symbol = "∩íÜ "
+
+[nodejs]
+symbol = "ε£ÿ "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[package]
+symbol = "∩úû "
+
+[python]
+symbol = "εê╡ "
+
+[rust]
+symbol = "ε₧¿ "
+style = "bg:#86BBD8"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+# time_format = "%R" # Hour:Minute Format
+# style = "bg:#33658A"
+# format = '[ ΓÖÑ $time ]($style)'
+format = "[$time]($style)"
+time_format = "%H:%M"

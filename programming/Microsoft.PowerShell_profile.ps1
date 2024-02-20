@@ -6,14 +6,17 @@ $NVIMRC = "$env:LOCALAPPDATA\nvim\init.vim"
 
 # Alias'
 Set-Alias -Name n -Value nvim
-Set-Alias -Name ls -Value exa
+Set-Alias -Name ls -Value eza
 
-Function l {exa -lh}
-Function la {exa -a}
-Function lla {exa -lha}
-Function lt {exa --tree --git-ignore}
+Function l {eza -lh}
+Function la {eza -a}
+Function lla {eza -lha}
+Function lt {eza --tree --git-ignore}
 Function fz {nvim $(fzf)}
 
 # Start Starship
 Invoke-Expression (&starship init powershell)
 #$ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"
+
+# Start zoxide
+Invoke-Expression (& { (zoxide init powershell -cmd cd | Out-String) })

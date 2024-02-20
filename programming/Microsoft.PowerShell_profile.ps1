@@ -19,4 +19,4 @@ Invoke-Expression (&starship init powershell)
 #$ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"
 
 # Start zoxide
-Invoke-Expression (& { (zoxide init powershell -cmd cd | Out-String) })
+Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })

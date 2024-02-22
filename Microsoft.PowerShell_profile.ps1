@@ -20,3 +20,12 @@ Invoke-Expression (&starship init powershell)
 
 # Start zoxide
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+
+# scans the cwd for files older than the provide date
+function Get-Old-Files {
+	param (
+		[Parameter (Mandatory = $False)]
+		[string]$date = (Get-Date).addMonths(-18)
+	)
+	get-childitem -file -Recurse -Force | Where-Object { $_.LastWriteTime -lt $date }
+}

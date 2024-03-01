@@ -1,94 +1,34 @@
-format = """
-[$directory](bold green)($git_branch$git_state$git_status)
-$time $hostname $username [λ](bold green) """
+add_newline = false
 
-[character]
-error_symbol = "[❌](bold red) "
-success_symbol = "[⚡](bold green)" 
+format = """$directory$character"""
+palette = "catppuccin_mocha"
 
-[cmd_duration]
-min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
-format = " took [$duration]($style)"
+right_format = """$all"""
 
-[conda]
-symbol = " "
-
-[directory]
-read_only = " "
-truncation_length = 2
-truncate_to_repo = false
-format = "[$path]($style)[$lock_symbol]($lock_style) "
-style = "bold green"
-
-[docker_context]
-symbol = " "
-
-[git_branch]
-symbol = " "
-
-[git_commit]
-commit_hash_length = 4
-tag_symbol = "🔖 "
-
-[git_state]
-format = '[\($state( $progress_current of $progress_total)\)]($style) '
-cherry_pick = "[🍒 PICKING](bold red)"
-
-[git_status]
-format = ' ([\[$conflicted$deleted$renamed$modified$staged$untracked$ahead_behind\]]($style))'
-conflicted = "🏳"
-ahead = "⇡${count}"
-behind = "⇣${count}"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-# up_to_date = "✓"
-# untracked = "🤷"
-# stashed = "📦"
-# modified = "📝"
-staged = '[++\($count\)](green)'
-# renamed = "👅"
-deleted = "🗑"
-
-[hostname]
-ssh_only = false
-format = "[🔷 $hostname™]($style)"
-style = "bold white"
-
-[java]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[julia]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[lua]
-symbol = " "
-
-[memory_usage]
-symbol = " "
-
-[nodejs]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[package]
-symbol = " "
-
-[python]
-symbol = " "
-
-[rust]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
-
-[time]
-disabled = false
-# time_format = "%R" # Hour:Minute Format
-# style = "bg:#33658A"
-# format = '[ ♥ $time ]($style)'
-format = "[$time]($style)"
-time_format = "%H:%M"
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"

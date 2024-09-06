@@ -1,39 +1,73 @@
-#Requires AutoHotkey v2.0
-#SingleInstance Force
+#SingleInstance Force ;include this script in windows startup
+InstallKeybdHook
+InstallMouseHook
+KeyHistory 50
 
 UpdateIncludesFile(includeDir, includeScript) {
-    ; Delete the existing includes.ahk file to start fresh
-    FileDelete(includeScript)
-    ; Wait for the file to be deleted before proceeding
-    while (FileExist(includeScript))
-        Sleep(100)
+  FileDelete(includeScript)
+  while (FileExist(includeScript))
+    Sleep(100)
 
-    ; Open the includes.ahk file for writing. In AHK V2, FileOpen returns an object.
-    file := FileOpen(includeScript, "w")
-    if (!file) {
-        MsgBox("Failed to open " includeScript " for writing.")
-        return
-    }
+  file := FileOpen(includeScript, "w")
+  if(!file) {
+    MsgBox("Failed to open " includeScript " for writing.")
+    return
+  }
 
-    ; Loop through all .ahk files in the include directory
-    Loop Files, includeDir "\*.ahk", "R"
-    {
-        ; Write each #Include directive to includes.ahk
-        file.Write('#Include "' A_LoopFileFullPath '"`n')
-    }
-    
-    file.Close()  ; Close the file when done
+  Loop Files, includeDir "\*.ahk", "R" {
+    file.Write('#Include `"' A_LoopFileFullPath '"`n')
+  }
+  file.Close()
 }
 
-; Example usage
 includeDirectoryPath := A_ScriptDir "\include"
 includesFilePath := A_ScriptDir "\includes.ahk"
 UpdateIncludesFile(includeDirectoryPath, includesFilePath)
 
-#Include "%A_ScriptDir%"
-#Include "includes.ahk"
+#include "C:\Users\mhixon\OneDrive - eBay Inc\Documents\Autohotkey" 
+#include "includes.ahk"
+#include "hotstringMaker.ahk"
+#include "caps-ctrl-esc.ahk"
 
-#^9::{
-  MsgBox("Reloaded script!")
-  Reload ; Ctrl + Alt + r 
+#Numpad9::{
+   MsgBox("reloaded script")
+   Reload
 }
+
+#!`::ToggleApp()
+ToggleApp() {
+    AppClass := "org.wezfurlong.wezterm"
+
+    if WinActive("ahk_class" AppClass) {
+      WinMinimize("ahk_class" AppClass)
+    }
+    else {
+      WinActivate("ahk_class" AppClass)
+    }
+    if not WinExist("ahk_class" AppClass) {
+        Run("C:\Program Files\WezTerm\wezterm-gui.exe") ; Replace with the actual path to your application
+    }
+    return
+}
+
+
+global enterTabToggle := false  ; Initialize the toggle variable to false
+
+; Define the hotkey Win+NumKey5 to toggle the functionality
+#Numpad5::{  ; Win+NumKey5
+    global enterTabToggle
+    enterTabToggle := !enterTabToggle  ; Toggle the boolean value
+    if (enterTabToggle) {
+      MsgBox("Enter will now be Tab")
+      Hotkey("Enter", EnterAsTab, "On")  ; Turn on the custom Enter functionality
+    } else {
+      Hotkey("Enter", EnterAsTab, "Off")  ; Turn off the custom Enter functionality
+      MsgBox("Enter will be Enter again") ; MsgBox second this time so the enter key can always dismiss the box
+    }
+}
+
+; Define the custom functionality for the Enter key
+EnterAsTab(ThisHotkey) {
+    Send("{Tab}")  ; Send the Tab key instead of Enter
+}
+

@@ -15,6 +15,8 @@ Function lla {eza -lha}
 Function lt {eza --tree --git-ignore}
 Function fz {nvim $(fzf)}
 
+Function wua {winget update --all --include-unknown --accept-source-agreements --accept-package-agreements}
+
 # Starship prompt
 Invoke-Expression (&starship init powershell)
 $ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"

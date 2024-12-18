@@ -22,7 +22,18 @@ Invoke-Expression (&starship init powershell)
 $ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"
 
 # Zoxide init
-Invoke-Expression (& { (zoxide init --cmd cd powershell | Out-String) })
+Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+
+# Yazi shortcut for navigation
+function y {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath $cwd
+    }
+    Remove-Item -Path $tmp
+}
 
 # scans the cwd for files older than the provide date
 function Get-Old-Files {

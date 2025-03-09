@@ -1,0 +1,12 @@
+theme = "heisenberg"
+
+[editor]
+bufferline = "always"
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.indent-guides]
+render = true
+
+ 

@@ -1,0 +1,47 @@
+# Useful Vars
+$HOSTS = "$env:windir\System32\drivers\etc\hosts"
+$DOTSSHDIR = "$env:USERPROFILE\.ssh"
+$DOTCONFIGDIR = "$env:USERPROFILE\.config"
+$NVIMRC = "$env:LOCALAPPDATA\nvim\"
+
+$life = "$env:OneDrive\life\"
+
+#Alias'
+Set-Alias -Name n -Value nvim
+
+# eza helpers
+Set-Alias -Name ls -Value eza
+Function l {eza -lh}
+Function la {eza -a}
+Function lla {eza -lha}
+Function lt {eza --tree --git-ignore}
+Function fz {nvim $(fzf)}
+
+Function wua {winget update --all --include-unknown --accept-source-agreements --accept-package-agreements}
+
+# Starship prompt
+Invoke-Expression (&starship init powershell)
+$ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"
+
+# Zoxide init
+Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
+
+# Yazi shortcut for navigation
+function y {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath $cwd
+    }
+    Remove-Item -Path $tmp
+}
+
+# scans the cwd for files older than the provide date
+function Get-Old-Files {
+	param (
+		[Parameter (Mandatory = $False)]
+		[string]$date = (Get-Date).addMonths(-18)
+	)
+	get-childitem -file -Recurse -Force | Where-Object { $_.LastWriteTime -lt $date }
+}

@@ -31,24 +31,38 @@ alias ll = ls -a
 alias cdh = cd ~
 
 let YEAR = 31557600sec
+
 def clipboard [] {
-    help clipboard
+    clipboard get
 }
 
+# Get the system clipboard contents using pwsh
 def "clipboard get" [] {
-    ^pwsh.exe -NoP -c "Get-Clipboard"
+    ^pwsh.exe -NoP -c 'Get-Clipboard'
 }
 
-def "clipboard set" [text: string] {
-    ^pwsh.exe -NoP -c "Set-Clipboard -Value $text"
-}
-
-def "clipboard copy" [text: string] {
-    ^powershell.exe -NoP -Command "Set-Clipboard -Value $text"
+# Set the system clipboard contents using pwsh
+def "clipboard set" [content:string] {
+    ^pwsh.exe -NoP -c $"Set-Clipboard -Value @\"\n($content)\n\"@"
 }
 
 def "clipboard paste" [] {
-    ^powershell.exe -NoP -Command "Get-Clipboard"
+    ^pwsh.exe -NoP -c 'Get-Clipboard'
+}
+
+def "clipboard copy" [] : any -> nothing {
+    ^pwsh.exe -NoP -c $"Set-Clipboard -Value @\"\n($in)\n\"@"
+}
+
+def "to xltext" [] : table -> string {
+    let table = $in
+    if ($table | describe | str starts-with "table") {
+        let result = $table | each {|row| $row | to csv --noheaders --separator "\t" | str trim } | str join "\n"
+        $result
+    } else {
+        # Error handling for non-table input
+        error "Input is not a table"
+    }
 }
 
 def --env y [...args] {
@@ -61,4 +75,6 @@ def --env y [...args] {
 	rm -fp $tmp
 }
 
-#use 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\scripts\cpc.nu' 
+use 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\scripts\cpc.nu' 
+
+use 'C:/Users/mhixon/OneDrive - eBay Inc/Documents/_CollectPC/scripts/search-qrs.nu'

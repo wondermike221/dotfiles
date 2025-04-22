@@ -109,6 +109,7 @@ workspaces:
   - name: '8'
   - name: '9'
   - name: 'obsidian'
+  - name: 'spotify'
 
 window_rules:
   - commands: ['ignore']
@@ -284,6 +285,9 @@ keybindings:
     bindings: ['alt+9']
   - commands: ['focus --workspace obsidian']
     bindings: ['alt+o']
+  - commands: ['focus --workspace spotify']
+    bindings: ['alt+g']
+
 
   # Move the focused window's parent workspace to a monitor in a given
   # direction.
@@ -319,5 +323,8 @@ keybindings:
     bindings: ['alt+shift+0']
   - commands: ['move --workspace obsidian', 'focus --workspace obsidian']
     bindings: ['alt+shift+o']
+  - commands: ['move --workspace spotify', 'focus --workspace spotify']
+    bindings: ['alt+shift+g']
+
 
 

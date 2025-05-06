@@ -64,10 +64,6 @@
 }
 
 
-:*:]cpcscaff::
-{
-  SendText(cpcTemplate)
-}
 :*:]assetScaff::
 {
     ; Retrieve the current contents of the clipboard

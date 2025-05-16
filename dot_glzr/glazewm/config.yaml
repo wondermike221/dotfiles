@@ -111,6 +111,7 @@ workspaces:
   - name: 'obsidian'
   - name: 'spotify'
   - name: ';'
+  - name: 'chat'
 
 window_rules:
   - commands: ['ignore']
@@ -141,7 +142,9 @@ window_rules:
         window_class: { regex: 'HwndWrapper\[QuickLook.exe;;.*\]' }
       - window_process: { equals: 'Flow.Launcher' }
         window_title: { equals: 'Settings' }
-
+  - commands: ["move --workspace chat"]
+    match:
+      - window_process: { equals: 'slack' }
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
   - name: 'resize'
@@ -290,6 +293,8 @@ keybindings:
     bindings: ['alt+g']
   - commands: ['focus --workspace ;']
     bindings: ['alt+oem_semicolon']
+  - commands: ['focus --workspace chat']
+    bindings: [alt+x']
 
   # Move the focused window's parent workspace to a monitor in a given
   # direction.
@@ -329,5 +334,7 @@ keybindings:
     bindings: ['alt+shift+g']
   - commands: ['move --workspace ;', 'focus --workspace ;']
     bindings: ['alt+shift+oem_semicolon']
+  - commands: ['move --workspace chat', 'focus --workspace chat']
+    bindings: ['alt+shift+x']
 
 

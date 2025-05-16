@@ -62,40 +62,8 @@
   SendText(A_Clipboard)
   SendText(" still deployed.`nEscalating to legal.")
 }
-:*:]atc::Assets to collect:`n
-cpcTemplate :=  "
-(
-[Main]
-email_template="Wait"
-status=""
-
-[Exited_Employee]
-name=""
-username=""
-source=""
-vendor=""
-personal_email=""
-
-[Manager]
-name=""
-email=""
-
-[[Asset]]
-serial=""
-tag=""
-
-#manually input other assets that need retrieval. Always work off ticket with smallest number.
-[[Asset]]
-serial=""
-tag=""
-
-)"
 
 
-:*:]cpcscaff::
-{
-  SendText(cpcTemplate)
-}
 :*:]assetScaff::
 {
     ; Retrieve the current contents of the clipboard
@@ -152,3 +120,50 @@ tag=""
   SendText("https://ebayinc.service-now.com/nav_to.do?uri=textsearch.do?sysparm_search=")
   SendText(A_Clipboard)
 }
+
+; Define the NATO phonetic alphabet for uppercase and lowercase letters
+natoAlphabet := Map(
+    "A", "Alfa", "B", "Bravo", "C", "Charlie", "D", "Delta",
+    "E", "Echo", "F", "Foxtrot", "G", "Golf", "H", "Hotel",
+    "I", "India", "J", "Juliett", "K", "Kilo", "L", "Lima",
+    "M", "Mike", "N", "November", "O", "Oscar", "P", "Papa",
+    "Q", "Quebec", "R", "Romeo", "S", "Sierra", "T", "Tango",
+    "U", "Uniform", "V", "Victor", "W", "Whiskey", "X", "X-ray",
+    "Y", "Yankee", "Z", "Zulu", "a", "alfa", "b", "bravo",
+    "c", "charlie", "d", "delta", "e", "echo", "f", "foxtrot",
+    "g", "golf", "h", "hotel", "i", "india", "j", "juliett",
+    "k", "kilo", "l", "lima", "m", "mike", "n", "november",
+    "o", "oscar", "p", "papa", "q", "quebec", "r", "romeo",
+    "s", "sierra", "t", "tango", "u", "uniform", "v", "victor",
+    "w", "whiskey", "x", "x-ray", "y", "yankee", "z", "zulu"
+)
+
+; Define the hotstring
+::]a2nato::
+{
+    ; Retrieve the string from the clipboard
+    clipboardString := A_Clipboard
+
+    ; Initialize an empty result string
+    result := ""
+
+    ; Iterate over each character in the clipboard string
+    for index, char in StrSplit(clipboardString, "")
+    {
+        ; Check if the character is in the NATO alphabet map
+        if natoAlphabet.Has(char)
+        {
+            ; Append the corresponding NATO word to the result string
+            result .= natoAlphabet[char] . "`n"
+        }
+        else
+        {
+            ; If the character is not in the map, append the character itself
+            result .= char . "`n"
+        }
+    }
+
+    ; Send the result using SendText
+    SendText(result)
+}
+

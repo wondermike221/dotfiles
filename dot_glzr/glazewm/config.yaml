@@ -136,6 +136,9 @@ window_rules:
         # window_class: { regex: 'XLMAIN' }
       - window_process: { equals: 'explorer' }
         window_class: { regex: 'CabinetWClass' }
+      - window_process: { equals: 'Microsoft.CmdPal.UI.exe' }
+        # window_class: { regex: 'WinUIDesktopWin32WindowClass' }
+
   - commands: ["set-floating"]
     match:
       - window_process: { equals: 'QuickLook' }

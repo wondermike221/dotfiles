@@ -76,5 +76,5 @@ def --env y [...args] {
 }
 
 #TODO move thses files to the autoload-dirs
-use 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\scripts\cpc.nu' 
-use 'C:/Users/mhixon/OneDrive - eBay Inc/Documents/_CollectPC/scripts/search-qrs.nu'
+# use 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\scripts\cpc.nu' 
+# use 'C:/Users/mhixon/OneDrive - eBay Inc/Documents/_CollectPC/scripts/search-qrs.nu'

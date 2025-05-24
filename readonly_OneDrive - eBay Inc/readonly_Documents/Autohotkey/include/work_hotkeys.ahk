@@ -5,26 +5,26 @@
 
 ^!+c::{ ; Search Outlook
   ;Focus Outlook
-  if WinExist("hk_exe outlook.exe")
+  if WinExist("ahk_exe olk.exe")
   {
-      WinActivate("ahk_exe outlook.exe")
+      WinActivate("ahk_exe olk.exe")
   }
   else
   {
       MsgBox "Outlook is not running."
       return
   }
-  WinWaitActive("ahk_exe outlook.exe")
+  WinWaitActive("ahk_exe olk.exe")
 
-  Send(!q)
+  Send("!q")
 
   Sleep(100)
 
-  Send(^a)
+  Send("^a")
 
-  Send({delete})
+  Send("{delete}")
 
-  Send(^v)
+  Send("^v")
 
-  Send({Enter})
+  Send("{Enter}")
 }

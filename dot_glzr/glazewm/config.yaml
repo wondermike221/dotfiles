@@ -167,11 +167,9 @@ binding_modes:
       - commands: ['wm-disable-binding-mode --name resize']
         bindings: ['escape', 'enter']
 
-  # When enabled, all keybindings are disabled except for alt+shift+p which
-  # returns to default keybindings.
   - name: 'pause'
     keybindings:
-      - commands: ['wm-toggle-pause']
+      - commands: ['wm-disable-binding-mode --name pause']
         bindings: ['alt+shift+p']
 
 keybindings:
@@ -227,6 +225,11 @@ keybindings:
   # Change the focused window to be floating.
   # - commands: ['toggle-floating --centered']
     # bindings: ['alt+shift+space']
+
+  # Disables window management and all other keybindings until alt+shift+p
+  # is pressed again.
+  # - commands: ['wm-toggle-pause']
+  #   bindings: ['alt+shift+p']
 
   # Change the focused window to be tiling.
   - commands: ['toggle-tiling']

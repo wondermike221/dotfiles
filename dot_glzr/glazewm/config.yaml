@@ -167,10 +167,10 @@ binding_modes:
       - commands: ['wm-disable-binding-mode --name resize']
         bindings: ['escape', 'enter']
 
-  - name: 'pause'
-    keybindings:
-      - commands: ['wm-disable-binding-mode --name pause']
-        bindings: ['alt+shift+p']
+  # - name: 'pause'
+  #   keybindings:
+  #     - commands: ['wm-disable-binding-mode --name pause']
+  #       bindings: ['alt+shift+p']
 
 keybindings:
   # Shift focus in a given direction.
@@ -226,10 +226,9 @@ keybindings:
   # - commands: ['toggle-floating --centered']
     # bindings: ['alt+shift+space']
 
-  # Disables window management and all other keybindings until alt+shift+p
-  # is pressed again.
-  # - commands: ['wm-toggle-pause']
-  #   bindings: ['alt+shift+p']
+  #Disables window management and all other keybindings until alt+shift+p is pressed again.
+  - commands: ['wm-toggle-pause']
+    bindings: ['alt+shift+p']
 
   # Change the focused window to be tiling.
   - commands: ['toggle-tiling']

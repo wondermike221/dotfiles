@@ -1,5 +1,4 @@
-export def main [--received (-r)] {
-    const path = 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\qr_exports\qrs.csv'
+def search-qrs [--received (-r), path = 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\qr_exports\qrs.csv'] {
     let rmas = open $path
     let names = clipboard get | split row -r '\r\n|\n'
     if $received {

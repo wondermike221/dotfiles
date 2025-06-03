@@ -36,3 +36,24 @@ Loop 26 {
   cb := StrReplace(cb, '`r`n', ",")
   SendText(cb)
 }
+
+FormFiller(input)
+{
+  ;input will be a string with the form inputs separated by tabs for tabbing and newlines for enter. other macros/programs can format the data to correctly fit any given form
+  loop parse, input, "`n"
+  {
+    row := A_LoopField
+    loop parse, row, "`t"
+    {
+      field := A_LoopField
+      SendText(field)
+      Send("`t")
+    }
+    Send("`n")
+  }
+}
+
+::]formfill::
+{
+    FormFiller(A_Clipboard)
+}

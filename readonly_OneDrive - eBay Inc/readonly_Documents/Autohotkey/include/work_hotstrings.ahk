@@ -59,7 +59,40 @@ ups_hotlink()
   SendText("Name: `nAddress: `nCity: `nZip: `nState: `nPhone: `nEmail: `nTicket: `nCost Center: `nS/N: ")
 }
 :*:]eeir::Exited Employee Information Request -
-:*:]ritequip::Need the following information to collect IT equipment:`npersonal email,`nphone number,`naddress
+:*:]ritequip::
+{
+  SendText("Can I get Contact info for the following exited employee:`n")
+  SendText(nameNTScaff())
+  SendText("I Need the following information to collect IT equipment:`nexternal email,`nphone number,`naddress")
+}
+nameNTScaff() {
+    clipboardContent := A_Clipboard
+    if(InStr(clipboardContent, "`n")) 
+    {
+      SendText(nameNTScaffMulti(clipboardContent))
+    } else {
+        SendText(nameNTScaffSingle(clipboardContent))
+    }
+}
+nameNTScaffSingle(item) {
+  parts := StrSplit(item, "`t")
+  if (parts.Length = 2) {
+      Name := parts[1]
+      NT := parts[2]
+      output := "- " Name " (" NT ")`n"
+      return output
+  } else {
+        MsgBox("Clipboard content is not in the expected format.")
+  }
+}
+nameNTScaffMulti(clipboardContent)
+{
+    output := ""
+    loop parse, clipboardContent, "`n", "`r" {
+        output := output . nameNTScaffSingle(A_LoopField)
+    }
+    return output
+}
 :*:]nasset::No assets per Helix, Azure and Splunk. Closing.
 :*:]-r::--redacted--
 :*:]rec::received at SLC.

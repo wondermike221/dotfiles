@@ -1,10 +1,10 @@
 # Main script
-export def main [] {
+def cpc [] {
     print "This is the main command use a subcommand"
     print "e.g. cpc px 1"
 }
 
-export def mailto [email: string, params?: record, signature = "\nMichael Hixon\nL2 Onsite Support | ITSS Asset Management\nIT Services & Solutions (ITSS)\neBay"] {
+def mailto [email: string, params?: record, signature = "\nMichael Hixon\nL2 Onsite Support | ITSS Asset Management\nIT Services & Solutions (ITSS)\neBay"] {
   if $params == null { return $'mailto:($email)' }
   mut p = $params
 
@@ -19,7 +19,7 @@ export def mailto [email: string, params?: record, signature = "\nMichael Hixon\
   $'mailto:($email)?' + $paramstr
 }
 
-export def wd [email = "CHANGE"] {
+def "cpc wd" [email = "CHANGE"] {
   const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
   let tickets = clipboard get | parse $headersPattern
   # print $tickets
@@ -34,7 +34,7 @@ export def wd [email = "CHANGE"] {
   start (mailto $email {subject:$subject, body:$emailBody cc:$cc})
 }
 
-export def px [] {
+def "cpc px" [] {
   const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
   let tickets = clipboard get | parse $headersPattern
 
@@ -49,7 +49,7 @@ export def px [] {
   start (mailto $"($tickets.0.managerEmail);itreturns@ebay.com" { subject:$subject, body:$emailBody })
 }
 
-export def fg [] {
+def "cpc fg" [] {
   const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
   let tickets = clipboard get | parse $headersPattern
 

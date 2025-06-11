@@ -28,3 +28,20 @@
 
   Send("{Enter}")
 }
+
+^!+s::{ ; Search SNOW
+  if WinExist("Main")
+  {
+      WinActivate("Main")
+      Send("^4")
+      Send("^!g")
+      SendText(A_Clipboard)
+      Sleep(1500)
+      Send("{Down}")
+  }
+  else
+  {
+    MsgBox "Main browser window not open"
+    return
+  }
+} 

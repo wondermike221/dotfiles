@@ -37,23 +37,68 @@ Loop 26 {
   SendText(cb)
 }
 
+/**
+ * Fills a form by typing out a string, interpreting tabs as Tab key presses
+ * and newlines as Enter key presses.
+ *
+ * This is ideal for pasting data copied from spreadsheet applications like Excel.
+ * The script is designed to reliably handle various line endings and empty cells/rows.
+ *
+ * @param input The string to process. Typically from the clipboard (A_Clipboard).
+ */
 FormFiller(input)
 {
-  ;input will be a string with the form inputs separated by tabs for tabbing and newlines for enter. other macros/programs can format the data to correctly fit any given form
-  loop parse, input, "`n"
-  {
-    row := A_LoopField
-    loop parse, row, "`t"
+    ; First, we normalize line endings. Data from Windows often has carriage returns (`r)
+    ; and newlines (`n`). We remove the `r` to make parsing consistent.
+    cleanInput := StrReplace(input, "`r", "")
+
+    ; Split the entire input into an array of rows based on the newline character.
+    rows := StrSplit(cleanInput, "`n")
+
+    ; Loop through each row in the array. We use a standard Loop instead of `for`
+    ; so we can easily get the index to check if it's the last row.
+    Loop rows.Length
     {
-      field := A_LoopField
-      SendText(field)
-      Send("`t")
+        row := rows[A_Index]
+
+        ; Split the current row into an array of fields based on the tab character.
+        fields := StrSplit(row, "`t")
+
+        ; Loop through each field in the current row.
+        Loop fields.Length
+        {
+            field := fields[A_Index]
+            
+            ; Send the text content of the field. SendText is generally more reliable
+            ; for sending blocks of text than the basic Send() command.
+            if (field != "")
+            {
+                SendText(field)
+            }
+
+            ; After sending the field's text, send a Tab key press, but ONLY
+            ; if it's not the last field in the row. This is the key fix.
+            if (A_Index < fields.Length)
+            {
+                Send("{Tab}")
+            }
+        }
+
+        ; After processing all fields in a row, send an Enter key press to move to
+        ; the next line in the form. We only do this if it's not the very last row
+        ; AND that last row is empty. This prevents an extra Enter at the very end
+        ; if your copied data had a trailing newline.
+        if (A_Index < rows.Length || rows[rows.Length] != "")
+        {
+            Send("{Enter}")
+        }
     }
-    Send("`n")
-  }
 }
 
+; This is the hotstring that triggers the script. When you type "]formfill"
+; followed by a space or enter, it will execute the code below.
 ::]formfill::
 {
+    ; Call the function with the current content of the clipboard.
     FormFiller(A_Clipboard)
 }

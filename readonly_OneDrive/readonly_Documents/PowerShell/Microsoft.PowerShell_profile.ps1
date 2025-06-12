@@ -37,3 +37,5 @@ function y {
 }
 
 function gh-create { $ErrorActionPreference="Stop"; gh repo create --private --source=. --remote=origin; git push -u --all; gh browse }
+
+mise activate pwsh | Out-String | Invoke-Expression

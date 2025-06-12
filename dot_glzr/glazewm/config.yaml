@@ -136,6 +136,8 @@ window_rules:
         # window_class: { regex: 'XLMAIN' }
       - window_process: { equals: 'explorer' }
         window_class: { regex: 'CabinetWClass' }
+      - window_process: { equals: 'WinDirStat' }
+      - window_title: { regex: 'Window Spy' }
 
   - commands: ["set-floating"]
     match:

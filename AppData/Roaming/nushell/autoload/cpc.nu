@@ -1,7 +1,27 @@
 # Main script
-def cpc [] {
-    print "This is the main command use a subcommand"
-    print "e.g. cpc px 1"
+def cpc [email = "CHANGE"] {
+  let tickets = parseInput
+  match $tickets.0.source {
+    "Workday" => {
+      cpc wd $email $tickets
+    }
+    "PeopleX" => {
+      cpc px $tickets
+    }
+    "Fieldglass" => {
+      cpc fg $tickets
+    }
+    _ => {
+      print "Usage: cpc [email]. Ensure you have the correct information in the clipboard"
+      print "e.g. cpc this_is_an@example.com"
+    }
+  }
+}
+
+def parseInput [] {
+  const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
+  let tickets = clipboard get | parse $headersPattern
+  return $tickets
 }
 
 def mailto [email: string, params?: record, signature = "\nMichael Hixon\nL2 Onsite Support | ITSS Asset Management\nIT Services & Solutions (ITSS)\neBay"] {
@@ -19,12 +39,9 @@ def mailto [email: string, params?: record, signature = "\nMichael Hixon\nL2 Ons
   $'mailto:($email)?' + $paramstr
 }
 
-def "cpc wd" [email = "CHANGE"] {
-  const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
-  let tickets = clipboard get | parse $headersPattern
-  # print $tickets
-  let subject = $"Request for Returned Equipment - ($tickets.0.name)"
-  let cc = $"itreturns@ebay.com;($tickets.0.managerEmail)"
+def "cpc wd" [email, tickets] {
+  let subject = $"Request for Returned Equipment - ($tickets.0.name) | ($tickets.0.task)"
+  let cc = $"itreturns@ebay.com;servicenow@ebay.com;($tickets.0.managerEmail)"
   # Format the assets
   let formattedAssets = $tickets | reduce --fold '' { |it, acc| $" - ($it.model) [SN: ($it.serial), Tag: ($it.assetTag)]\n($acc)"}
     
@@ -34,11 +51,9 @@ def "cpc wd" [email = "CHANGE"] {
   start (mailto $email {subject:$subject, body:$emailBody cc:$cc})
 }
 
-def "cpc px" [] {
-  const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
-  let tickets = clipboard get | parse $headersPattern
-
-  let subject = $"Request for Returned Equipment - ($tickets.0.name)"
+def "cpc px" [tickets] {
+  let subject = $"Request for Returned Equipment - ($tickets.0.name) | ($tickets.0.task)"
+  let cc = $"itreturns@ebay.com;servicenow@ebay.com"
 
   # Format the assets
   let formattedAssets = $tickets | reduce --fold '' { |it, acc| $" - ($it.model) [SN: ($it.serial), Tag: ($it.assetTag)]\n($acc)"}
@@ -46,13 +61,10 @@ def "cpc px" [] {
   # Format the email body
   let emailBody = $"Hi ($tickets.0.managerName),\n\nYour exited employee ($tickets.0.name) has not returned their equipment.\n\n($formattedAssets)\nIT can handle the return but since they were onboarded directly via peoplex we need your help to get the information necessary to start the process.\nPlease reply with the following information. If they have already returned their equipment, please let me know when and where so we may follow up with the local site.\n-	Personal Email\n-	Phone Number\n-	Address\n\nThanks!"
   
-  start (mailto $"($tickets.0.managerEmail);itreturns@ebay.com" { subject:$subject, body:$emailBody })
+  start (mailto $"($tickets.0.managerEmail)" { subject:$subject, body:$emailBody cc:$cc })
 }
 
-def "cpc fg" [] {
-  const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
-  let tickets = clipboard get | parse $headersPattern
-
+def "cpc fg" [tickets] {
   let subject = "Exited Employee Information Request"
 
   # Format the users/usernames/vendors

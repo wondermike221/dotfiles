@@ -1,6 +1,6 @@
 # Main script
 def cpc [email = "CHANGE"] {
-  let tickets = parseInput
+  let tickets = cpc parseInput
   match $tickets.0.source {
     "Workday" => {
       cpc wd $email $tickets
@@ -18,7 +18,7 @@ def cpc [email = "CHANGE"] {
   }
 }
 
-def parseInput [] {
+def "cpc parseInput" [] {
   const headersPattern = "{ord}\t{template}\t{lastEmail}\t{task}\t{location}\t{name}\t{nt}\t{source}\t{vendor}\t{managerName}\t{managerEmail}\t{assetTag}\t{serial}\t{assetState}\t{substate}\t{model}\t{terminationDate}\t{costCenter}\t{qid}"
   let tickets = clipboard get | parse $headersPattern
   return $tickets

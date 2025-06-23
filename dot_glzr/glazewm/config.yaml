@@ -98,7 +98,6 @@ window_behavior:
       shown_on_top: false
 
 workspaces:
-  - name: '0'
   - name: '1'
   - name: '2'
   - name: '3'
@@ -108,10 +107,11 @@ workspaces:
   - name: '7'
   - name: '8'
   - name: '9'
+  - name: '0'
   - name: 'obsidian'
   - name: 'spotify'
-  - name: ';'
   - name: 'chat'
+  - name: ';'
 
 window_rules:
   - commands: ['ignore']

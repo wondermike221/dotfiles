@@ -78,3 +78,29 @@ def --env y [...args] {
 #TODO move thses files to the autoload-dirs
 # use 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\scripts\cpc.nu' 
 # use 'C:/Users/mhixon/OneDrive - eBay Inc/Documents/_CollectPC/scripts/search-qrs.nu'
+
+def sync-winget-links [] {
+    let cwd = pwd
+    let pkgs = $env.LOCALAPPDATA | path join "Microsoft/WinGet/Packages"
+    let links = $env.LOCALAPPDATA | path join "Microsoft/WinGet/Links"
+    cd $pkgs
+
+    # Ensure the Links directory exists
+    if not ($links | path exists) {
+        mkdir $links
+    }
+
+    # Find all .exe files and link them
+    glob **/*.exe | each { |i|
+        let exe_path = $i
+        let exe_name = ($exe_path | path basename)
+        let link_path = $links | path join $exe_name
+
+        if not ($link_path | path exists) {
+            ln -s $exe_path $link_path
+            echo "Linked $exe_name"
+        }
+    }
+    cd $cwd
+}
+sync-winget-links

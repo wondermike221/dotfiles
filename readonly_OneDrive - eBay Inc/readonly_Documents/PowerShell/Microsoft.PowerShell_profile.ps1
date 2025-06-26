@@ -20,6 +20,37 @@ Function fz {nvim $(fzf)}
 
 Function wua {winget update --all --include-unknown --accept-source-agreements --accept-package-agreements}
 
+function Sync-WinGetLinks {
+    [CmdletBinding()]
+    param(
+        [string]$PackagesPath = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages",
+        [string]$LinksPath    = "$env:LOCALAPPDATA\Microsoft\WinGet\Links"
+    )
+
+    # Ensure the Links directory exists
+    if (-not (Test-Path $LinksPath)) {
+        New-Item -ItemType Directory -Path $LinksPath -Force | Out-Null
+    }
+
+    # Find all EXEs and create missing symlinks
+    Get-ChildItem -Path $PackagesPath -Recurse -Filter *.exe -File | ForEach-Object {
+        $exeName = $_.Name
+        $linkPath = Join-Path $LinksPath $exeName
+
+        if (-not (Test-Path $linkPath)) {
+            try {
+                New-Item -ItemType SymbolicLink -Path $linkPath -Target $_.FullName -Force | Out-Null
+                Write-Verbose "Linked: $exeName → $($_.FullName)"
+            } catch {
+                Write-Warning "Could not link $exeName : $_"
+            }
+        }
+        else {
+            Write-Verbose "Already exists: $linkPath"
+        }
+    }
+}
+
 # Start Starship
 # Invoke-Expression (&starship init powershell)
 #$ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"

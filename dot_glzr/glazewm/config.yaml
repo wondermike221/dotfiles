@@ -108,10 +108,10 @@ workspaces:
   - name: '8'
   - name: '9'
   - name: '0'
-  - name: 'obsidian'
-  - name: 'spotify'
-  - name: 'chat'
   - name: ';'
+  - name: 'obsidian'
+  - name: 'chat'
+  - name: 'spotify'
 
 window_rules:
   - commands: ['ignore']

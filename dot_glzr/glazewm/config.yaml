@@ -264,6 +264,12 @@ keybindings:
   # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows
   # Terminal and Git Bash respectively.
   - commands: ['shell-exec wt']
+    bindings: ['alt+enter']
+
+  - commands: ['shell-exec C:\Program Files/Mozilla Firefox/firefox.exe -new-window']
+    bindings: ['alt+b']
+
+  - commands: ['shell-exec C:\Program Files/Google/Chrome/Application/chrome.exe -new-window']
     bindings: ['alt+c']
 
   # Focus the next/previous workspace defined in `workspaces` config.
@@ -304,7 +310,7 @@ keybindings:
   - commands: ['focus --workspace ;']
     bindings: ['alt+oem_semicolon']
   - commands: ['focus --workspace chat']
-    bindings: [alt+x']
+    bindings: ['alt+x']
 
   # Move the focused window's parent workspace to a monitor in a given
   # direction.

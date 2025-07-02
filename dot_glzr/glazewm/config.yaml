@@ -3,6 +3,18 @@ general:
   # script or launching another application.
   # Example: The below command launches Zebar.
   startup_commands: ['shell-exec zebar']
+ 
+  # How windows should be hidden when switching workspaces.                 ..
+  # - 'cloak': Recommended. Hides windows with no animation.                ..
+  # - 'hide': Legacy method (v3.5 and earlier) that has a brief animation,  ..
+  # but has stability issues with some apps.                                ..
+  hide_method: 'cloak'
+
+  # Affects which windows get shown in the native Windows taskbar. Has no   ..
+  # effect if `hide_method: 'hide'`.                                        ..
+  # - 'true': Show all windows (regardless of workspace).                   ..
+  # - 'false': Only show windows from the currently shown workspaces.       ..
+  show_all_in_taskbar: false 
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
@@ -273,9 +285,9 @@ keybindings:
     bindings: ['alt+c']
 
   # Focus the next/previous workspace defined in `workspaces` config.
-  - commands: ['focus --next-workspace']
+  - commands: ['focus --next-active-workspace']
     bindings: ['alt+s']
-  - commands: ['focus --prev-workspace']
+  - commands: ['focus --prev-active-workspace']
     bindings: ['alt+a']
 
   # Focus the workspace that last had focus.

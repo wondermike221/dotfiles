@@ -36,6 +36,9 @@
 [url "https://bitbucket.org/"]
 	insteadOf=bb:
 
+[pretty]
+    slog = format:%C(yellow)%h %Cred%as %Cblue%an%Cgreen%d %Creset%s
+
 [alias]
 	# Pull with rebase
 	pr = pull --rebase
@@ -96,3 +99,42 @@
 
 	# Thin out older metadata within the repository, reduceses filesystem footprint
 	trim = !git reflog expire --expire=now --all && git gc --prune=now
+
+  s = status
+
+  cm = commit -m
+
+  sw = switch
+
+  br = branch
+
+  l1 = log -1 --pretty=slog
+  l5 = log -5 --pretty=slog 
+  slog = log --pretty=slog
+  glog = log --graph --pretty=slog 
+  outgoing = log --pretty=slog @{u}..
+ 
+  amend = commit --amend
+  untrack = rm --cached
+  unadd = restore --staged
+
+
+  # Diff of last commit
+  dlc = diff --cached HEAD^ 
+
+  # list all defined aliases
+  aliases = config --get-regexp alias
+
+  # Find very first commit
+  first = rev-list --max-parents=0 HEAD
+
+  # what would be merged
+  incoming = log HEAD..@{upstream}
+
+  # what would be pushed
+  outgoing = log @{upstream}..HEAD
+  outgoing = log @{u}..
+
+  wdiff = diff -w --word-diff=color --ignore-space-at-eol
+
+  structure = log --oneline --simplify-by-decoration --graph --all

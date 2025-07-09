@@ -43,15 +43,6 @@
 	# Pull with rebase
 	pr = pull --rebase
 
-	# Show a pretty log
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-
-	# Add and remove all changes, note how this alias is calling another alias
-	addremove = !git r && git add . --all
-
-	# Show all of my configured aliases
-	aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
-
 	# For when you made that commit a bit too early, amend
 	amend = !git log -n 1 --pretty=tformat:%s%n%n%b | git commit -F - --amend
 
@@ -76,15 +67,6 @@
 	# Unstage changes from the index
 	unstage = reset HEAD --
 
-	# View a pretty git log with branch tree
-	g = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
-	# Return a list of commit SHA1s
-	l = "!f() { git log $* | grep '^commit ' | cut -f 2 -d ' '; }; f"
-
-	# Remove deleted files
-	r = !git ls-files -z --deleted | xargs -0 git rm
-
 	# Return the repository's root directory (usefull for shell prompts)
 	root = rev-parse --show-toplevel
 
@@ -105,8 +87,6 @@
   cm = commit -m
 
   sw = switch
-
-  br = branch
 
   l1 = log -1 --pretty=slog
   l5 = log -5 --pretty=slog 

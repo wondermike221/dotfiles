@@ -3,7 +3,7 @@
 $startupFolder = [Environment]::GetFolderPath('Startup')
 function makeShortcut {
   param(
-    [String] $shortcutPath
+    [String] $shortcutPath,
     [String] $target
   )
   $WshShell = New-Object -ComObject WScript.Shell

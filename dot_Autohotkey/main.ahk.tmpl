@@ -24,7 +24,7 @@ includeDirectoryPath := A_ScriptDir "\include"
 includesFilePath := A_ScriptDir "\includes.ahk"
 UpdateIncludesFile(includeDirectoryPath, includesFilePath)
 
-#include "C:\Users\mhixon\OneDrive - eBay Inc\Documents\Autohotkey" 
+#include "{{ .chezmoi.homeDir }}\.Autohotkey"
 #include "includes.ahk"
 #include "hotstringMaker.ahk"
 #include "caps-ctrl-esc.ahk"

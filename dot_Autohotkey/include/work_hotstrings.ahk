@@ -103,6 +103,7 @@ nameNTScaffMulti(clipboardContent)
   SendText(A_Clipboard)
   SendText(" still deployed.`nEscalating to legal.")
 }
+::]retreq::You will need to return most eBay-issued items, including any laptops, phones, power adapters, and Yubikeys. Accessories such as monitors, keyboards, and headsets may be kept or disposed of.
 
 
 :*:]assetScaff::

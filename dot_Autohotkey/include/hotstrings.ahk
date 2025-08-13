@@ -1,3 +1,4 @@
+::]test::{MsgBox A_UserName}
 TodaysDate() {
   Send(FormatTime(, "MM/d/yy"))  ; It will look like 9/1/2005 3:53 PM
 }
@@ -24,7 +25,7 @@ await getData();return function(regex,excludedLetters="",includedLetters=""){rx=
 ;NATO Alphabet
 ::]nato::https://militaryalphabet.net/ ;quick reference site
 alph := "abcdefghijklmnopqrstuvwxyz"
-nato_file_contents := FileRead("C:\Users\mhixon\Documents\Autohotkey\include\nato.txt")
+nato_file_contents := FileRead("C:\Users\" A_UserName "\.Autohotkey\include\nato.txt")
 nato_lines := StrSplit(nato_file_contents, "`n", "`n`r")
 Loop 26 {
   activation := "::]n" . SubStr(alph, A_Index, 1)

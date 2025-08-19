@@ -1,5 +1,0 @@
-We recently received an automated Yubikey request associated to the creation of a new Admin (-a) account for you. A secondary Yubikey will be required to manage this account.
-Please reply to this message with the following info, Or if you already have a second Yubikey for your -a account please let me know and I will cancel the request. Thanks!
- - Physical Shipping Address
- - Phone Number
- - Do you want a Standard USB Yubikey? Or the USB-c type?

@@ -11,10 +11,26 @@ function makeShortcut {
   $Shortcut.TargetPath = $target
   $Shortcut.Save()
 }
-# main.ahk
-makeShortcut "$startupFolder\main.ahk.lnk" "$HOME\.Autohotkey\main.ahk"
-# glazewm
-makeShortcut "$startupFolder\glazewm.exe.lnk" "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe"
+if (-not (Test-Path "$startupFolder\main.ahk.lnk") -and Test-Path "$HOME\.Autohotkey\main.ahk") {
+  # main.ahk
+  makeShortcut "$startupFolder\main.ahk.lnk" "$HOME\.Autohotkey\main.ahk"
+}
+if (-not (Test-Path "$startupFolder\glazewm.exe.lnk") -and Test-Path "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe") {
+  # glazewm
+  makeShortcut "$startupFolder\glazewm.exe.lnk" "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe"
+}
 
+# Set up EDITOR env
+if (where.exe nvim) {
+  [Environment]::SetEnvironmentVariable
+     ("EDITOR", (where.exe nvim), [System.EnvironmentVariableTarget]::User)
+} else {
+  write-output "neovim is not installed!"
+}
 
+# set up lazyvim
 New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target C:\Users\mhixon\.config\nvim\
+
+# set up alternate yazi config Path
+[Environment]::SetEnvironmentVariable
+  ("YAZI_CONFIG_HOME", "~/.config/yazi", [System.EnvironmentVariableTarget]::User)

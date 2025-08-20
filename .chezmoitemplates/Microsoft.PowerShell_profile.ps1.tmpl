@@ -51,6 +51,10 @@ function Sync-WinGetLinks {
     }
 }
 
+function gh-create { $ErrorActionPreference="Stop"; gh repo create --private --source=. --remote=origin; git push -u --all; gh browse }
+
+mise activate pwsh | Out-String | Invoke-Expression
+
 # Start Starship
 # Invoke-Expression (&starship init powershell)
 #$ENV:STARSHIP_CONFIG = "$HOME\Documents\starship.toml"
@@ -61,7 +65,9 @@ Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 # eBay specific settings
 #
 $TRACKING_MODULE = "C:\Users\mhixon\OneDrive - eBay Inc\Documents\repos\Tracking.psm1"
-Import-Module $TRACKING_MODULE
+if(Test-Path $TRACKING_MODULE) {
+  Import-Module $TRACKING_MODULE
+}
 $CPC_EMAIL_MODULE = "C:\Users\mhixon\OneDrive - eBay Inc\Documents\repos\"
 # Import-Module $CPC_EMAIL_MODULE
 $PEOPLEX_MODULE = "C:\Users\mhixon\OneDrive - eBay Inc\Documents\repos\peoplex_automation.psm1"

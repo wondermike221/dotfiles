@@ -13,8 +13,7 @@ Set-Alias -Name n -Value nvim
 Set-Alias -Name ls -Value eza
 
 Function l {eza -lh}
-Function la {eza -a}
-Function lla {eza -lha}
+Function la {eza -alh}
 Function lt {eza --tree --git-ignore}
 Function fz {nvim $(fzf)}
 
@@ -76,7 +75,7 @@ $PEOPLEX_MODULE = "C:\Users\mhixon\OneDrive - eBay Inc\Documents\repos\peoplex_a
 # Import-Module $GET_OUTLOOK_MODULE
 
 # Helpers for dealing with dash a password
-$APASS_FILE = "C:\Users\mhixon\OneDrive - eBay Inc\Desktop\macros\apass.txt"
+$APASS_FILE = "C:\Users\mhixon\Desktop\macros\apass.txt"
 function Set-apass {
 	param (
 		[Parameter (Mandatory = $False)]

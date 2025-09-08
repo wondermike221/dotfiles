@@ -144,6 +144,7 @@ window_rules:
         window_class: { regex: 'HwndWrapper' }
       - window_process: { equals: 'Overwatch' }
         window_class: { regex: 'TankWindowClass' }
+      - window_class: { regex: 'LMITC_Dialog$' }
       # - window_process: { equals: 'EXCEL' }
         # window_class: { regex: 'XLMAIN' }
       # - window_process: { equals: 'explorer' }

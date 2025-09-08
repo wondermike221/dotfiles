@@ -29,7 +29,7 @@ if (where.exe nvim -and (-not (Test-Path Env:EDITOR) -and ($env:EDITOR -ne "C:\P
 }
 
 # set up lazyvim
-if (Test-Path "~\.config\nvim\") {
+-if ((Test-Path "~\.config\nvim\") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
   New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target C:\Users\mhixon\.config\nvim\
 }
 

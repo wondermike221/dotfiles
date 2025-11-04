@@ -123,6 +123,7 @@ workspaces:
   - name: ';'
   - name: 'obsidian'
   - name: 'chat'
+  - name: 'code'
   - name: 'spotify'
 
 window_rules:
@@ -234,8 +235,8 @@ keybindings:
     bindings: ['alt+v']
 
   # Change focus from tiling windows -> floating -> fullscreen.
-  # - commands: ['wm-cycle-focus']
-    # bindings: ['alt+space']
+  - commands: ['wm-cycle-focus']
+    bindings: ['alt+shift+space']
 
   # Change the focused window to be floating.
   # - commands: ['toggle-floating --centered']
@@ -282,8 +283,8 @@ keybindings:
   - commands: ['shell-exec C:\Program Files/Mozilla Firefox/firefox.exe -new-window']
     bindings: ['alt+b']
 
-  - commands: ['shell-exec C:\Program Files/Google/Chrome/Application/chrome.exe -new-window']
-    bindings: ['alt+c']
+  #- commands: ['shell-exec C:\Program Files/Google/Chrome/Application/chrome.exe -new-window']
+  #  bindings: ['alt+c']
 
   # Focus the next/previous workspace defined in `workspaces` config.
   - commands: ['focus --next-active-workspace']
@@ -324,6 +325,8 @@ keybindings:
     bindings: ['alt+oem_semicolon']
   - commands: ['focus --workspace chat']
     bindings: ['alt+x']
+  - commands: ['focus --workspace code']
+    bindings: ['alt+c']
 
   # Move the focused window's parent workspace to a monitor in a given
   # direction.
@@ -365,5 +368,7 @@ keybindings:
     bindings: ['alt+shift+oem_semicolon']
   - commands: ['move --workspace chat', 'focus --workspace chat']
     bindings: ['alt+shift+x']
+  - commands: ['move --workspace code', 'focus --workspace code']
+    bindings: ['alt+shift+c']
 
 

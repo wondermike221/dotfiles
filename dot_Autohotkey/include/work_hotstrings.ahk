@@ -1,10 +1,15 @@
 ; email shortcuts
 :*:]a@::mhixon-a@ebay.com ; admin email
 :*:]@@::mhixon@ebay.com ; corp email
+::]inet::{
+   inet := FileRead("C:\Users\mhixon\Desktop\macros\inet.txt")
+   SendText(inet)
+}
 ::]bh::{
   SendText("eBay B&H Orders ")
   Send(FormatTime(, "MM/dd/yy"))  ; It will look like 09/01/2005 3:53 PM
 }
+::]dl::DL-eBay-GSS-Deskside-AMER-
 
 ;Splunk help
 ::]sworkstation::{
@@ -135,9 +140,20 @@ nameNTScaffMulti(clipboardContent)
     return
 }
 
+::]ebayaddr::
+{
+  SendText("Address for Shipment`nSalt Lake City, UT/Remote: 173 W. Election Rd, Draper, UT 84020`nSan Jose, CA: 2145 Hamilton Ave, San Jose, CA 95125`nAustin, TX: 7700 W. Parmer Lane, Austin, TX 78729`nBellevue, WA: 411 108th Ave NE, Bellevue, WA 98004`nNew York, NY: 625 6th Ave., New York, NY 10011`nPortland, OR: 1400 SW 5th Ave., Floor 10, Portland, OR 97201")
+}
+
 :r*:]deliv::
 {
   SendText("Apologies for missing your tracking status notification. It looks like your items have been delivered so I'll go ahead and close your ticket. Please let me know if anything hasn't been delivered so I can remedy that.`nThanks!")
+}
+:r*:]cl::
+{
+  SendText("Chat log:")
+  Send('{Enter}')
+  Send('{ctrl down} v {ctrl up}')
 }
 
 ; other

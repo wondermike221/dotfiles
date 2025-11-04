@@ -1,4 +1,4 @@
-def search-qrs [--received (-r), --sort (-s), path = 'C:\Users\mhixon\OneDrive - eBay Inc\Documents\_CollectPC\qr_exports\qrs.csv'] {
+def search-qrs [--received (-r), --sort (-s), path = 'C:\Users\mhixon\Downloads\qrs.csv'] {
     let rmas = open $path
     let names = clipboard get | split row -r '\r\n|\n'
     if $sort {

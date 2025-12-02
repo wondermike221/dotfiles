@@ -1,0 +1,180 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema-preview",
+    "actions": [],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+    "keybindings": 
+    [
+        {
+            "id": "Terminal.CopyToClipboard",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "Terminal.PasteFromClipboard",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "Terminal.FindText",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "Terminal.MoveFocusLeft",
+            "keys": "ctrl+alt+left"
+        },
+        {
+            "id": null,
+            "keys": "win+sc(41)"
+        },
+        {
+            "id": "Terminal.MoveFocusDown",
+            "keys": "ctrl+alt+down"
+        },
+        {
+            "id": null,
+            "keys": "alt+down"
+        },
+        {
+            "id": null,
+            "keys": "alt+left"
+        },
+        {
+            "id": "Terminal.DuplicatePaneDown",
+            "keys": "ctrl+alt+minus"
+        },
+        {
+            "id": "Terminal.MoveFocusRight",
+            "keys": "ctrl+alt+right"
+        },
+        {
+            "id": null,
+            "keys": "alt+right"
+        },
+        {
+            "id": "Terminal.MoveFocusUp",
+            "keys": "ctrl+alt+up"
+        },
+        {
+            "id": null,
+            "keys": "alt+up"
+        },
+        {
+            "id": "Terminal.DuplicatePaneRight",
+            "keys": "ctrl+alt+plus"
+        },
+        {
+            "id": null,
+            "keys": "alt+shift+minus"
+        },
+        {
+            "id": null,
+            "keys": "alt+space"
+        },
+        {
+            "id": null,
+            "keys": "alt+shift+plus"
+        },
+        {
+            "id": null,
+            "keys": "alt+enter"
+        },
+        {
+            "id": "Terminal.DuplicatePaneAuto",
+            "keys": "ctrl+alt+d"
+        }
+    ],
+    "newTabMenu": 
+    [
+        {
+            "icon": null,
+            "profile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+            "type": "profile"
+        },
+        {
+            "icon": null,
+            "profile": "{47302f9c-1ac4-566c-aa3e-8cf29889d6ab}",
+            "type": "profile"
+        },
+        {
+            "icon": null,
+            "profile": "{39339e63-e455-5c73-ac0e-e7347d38b95b}",
+            "type": "profile"
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "allowEmpty": false,
+            "entries": 
+            [
+                {
+                    "type": "remainingProfiles"
+                }
+            ],
+            "icon": null,
+            "inline": "never",
+            "name": "Other",
+            "type": "folder"
+        }
+    ],
+    "profiles": 
+    {
+        "defaults": 
+        {
+            "font": 
+            {
+                "face": "JetBrainsMono Nerd Font Mono"
+            }
+        },
+        "list": 
+        [
+            {
+                "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+                "hidden": false,
+                "name": "PowerShell",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{47302f9c-1ac4-566c-aa3e-8cf29889d6ab}",
+                "hidden": false,
+                "name": "Nushell",
+                "source": "nu"
+            },
+            {
+                "backgroundImage": null,
+                "guid": "{39339e63-e455-5c73-ac0e-e7347d38b95b}",
+                "hidden": false,
+                "name": "archlinux",
+                "source": "Microsoft.WSL"
+            },
+            {
+                "guid": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
+                "hidden": false,
+                "name": "Git Bash",
+                "source": "Git"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+            },
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                "hidden": false,
+                "name": "Azure Cloud Shell",
+                "source": "Windows.Terminal.Azure"
+            }
+        ]
+    },
+    "schemes": [],
+    "searchWebDefaultQueryUrl": "https://duckduckgo.com/?q=%22%s%22&kp=-2&kl=us-en",
+    "themes": []
+}

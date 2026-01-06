@@ -61,7 +61,14 @@ def "to xltext" [] : table -> string {
         $result
     } else {
         # Error handling for non-table input
-        error "Input is not a table"
+        let span = (metadata $table).span
+        error make {
+          msg: "Input is not a table",
+          label: {
+              text: "Not a table",
+              span: $span
+            }
+        }
     }
 }
 
@@ -103,4 +110,3 @@ def sync-winget-links [] {
     }
     cd $cwd
 }
-sync-winget-links

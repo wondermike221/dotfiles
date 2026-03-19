@@ -1,6 +1,7 @@
 ; email shortcuts
 :*:]a@::mhixon-a@ebay.com ; admin email
 :*:]@@::mhixon@ebay.com ; corp email
+:*:]addr::339 W 13490 S Floor 5, Draper, UT 84020 ;office address
 ::]inet::{
    inet := FileRead("C:\Users\mhixon\Desktop\macros\inet.txt")
    SendText(inet)
@@ -337,4 +338,11 @@ join(strArray)
       s .= ", " . v
 
     return s
-  }
+}
+
+:*:]adobelic::
+(
+Your Adobe License for <PRODUCT> has been assigned.  License activation could take up to 1 hour.  You may need to log out of Adobe Creative Cloud and log back in for the changes to take effect.
+To install, please open the Adobe Creative Cloud Desktop application on your computer.  You can install individual Adobe applications from there.
+If you do not have the Creative Cloud Desktop application installed, open Software Center (Windows) or Self Service (Mac) on your machine and install the Creative Cloud Desktop application.
+)

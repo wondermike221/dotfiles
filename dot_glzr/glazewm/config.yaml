@@ -152,6 +152,8 @@ window_rules:
       #   window_class: { regex: 'CabinetWClass' }
       - window_process: { equals: 'WinDirStat' }
       - window_title: { regex: 'Window Spy' }
+      #- window_class: { equals: 'Chrome_WidgetWin_1'}
+      - window_title: { regex: 'Bitwarden' }
 
   - commands: ["set-floating"]
     match:
@@ -162,6 +164,7 @@ window_rules:
       - window_process: { equals: 'Microsoft.CmdPal.UI' }
       - window_class: { regex: 'WinUIDesktopWin32WindowClass' }
       - window_title: { regex: "Command Palette" }
+      - window_process: { equals: 'PanGPA' }
 
   - commands: ["move --workspace chat"]
     match:

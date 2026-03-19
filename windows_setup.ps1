@@ -38,3 +38,12 @@ if ((Test-Path Env:YAZI_CONFIG_HOME) -and ($env:YAZI_CONFIG_HOME -ne "~\.config\
   [Environment]::SetEnvironmentVariable
     ("YAZI_CONFIG_HOME", "~\.config\yazi", [System.EnvironmentVariableTarget]::User)
 }
+
+# Disable windows telemetry service
+if((get-service -name diagtrack).startuptype -ne "disabled") { 
+  write-host "not-disabled" 
+  sudo powershell.exe -command Set-Service -name diagtrack -StartupType Disabled
+} else {
+  write-host "is-disabled" 
+}
+

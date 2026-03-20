@@ -11,9 +11,9 @@ function makeShortcut {
   $Shortcut.TargetPath = $target
   $Shortcut.Save()
 }
-if (-not (Test-Path "$startupFolder\main.ahk.lnk") -and (Test-Path "$HOME\.Autohotkey\main.ahk")) {
-  # main.ahk
-  makeShortcut "$startupFolder\main.ahk.lnk" "$HOME\.Autohotkey\main.ahk"
+if (-not (Test-Path "$startupFolder\start.bat.lnk") -and (Test-Path "$HOME\.Autohotkey\start.bat")) {
+  # start.bat for ahk
+  makeShortcut "$startupFolder\start.bat.lnk" "$HOME\.Autohotkey\start.bat"
 }
 if (-not (Test-Path "$startupFolder\glazewm.exe.lnk") -and (Test-Path "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe")) {
   # glazewm
@@ -29,7 +29,7 @@ if (where.exe nvim -and (-not (Test-Path Env:EDITOR) -and ($env:EDITOR -ne "C:\P
 }
 
 # set up lazyvim
--if ((Test-Path "~\.config\nvim\") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
+if ((Test-Path "~\.config\nvim\") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
   New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target C:\Users\mhixon\.config\nvim\
 }
 

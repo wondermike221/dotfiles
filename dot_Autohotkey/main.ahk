@@ -95,3 +95,6 @@ EnterAsTab(ThisHotkey) {
         Send("{Down}{Home}")
     }
 }
+
+^+WheelUp::SendInput("^+{Tab}")
+^+WheelDown::SendInput("^{Tab}")

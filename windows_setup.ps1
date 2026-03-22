@@ -21,9 +21,13 @@ if (-not (Test-Path "$startupFolder\glazewm.exe.lnk") -and (Test-Path "C:\Progra
 }
 
 # Set up EDITOR env
-if (where.exe nvim -and (-not (Test-Path Env:EDITOR) -and ($env:EDITOR -ne "C:\Program Files/Neovim/bin/nvim.exe"))) {
-  [Environment]::SetEnvironmentVariable
-     ("EDITOR", (where.exe nvim), [System.EnvironmentVariableTarget]::User)
+$neovimInstalled = (where.exe nvim).Length > 0
+$editorEnvExists = Test-Path Env:EDITOR
+if ($neovimInstalled -and (-not ($editorEnvExists) )) {
+  if ($env:EDITOR -ne "C:\Program Files/Neovim/bin/nvim.exe") {
+    [Environment]::SetEnvironmentVariable
+      ("EDITOR", (where.exe nvim), [System.EnvironmentVariableTarget]::User)
+  }
 } else {
   write-output "neovim is not installed!"
 }
@@ -34,7 +38,7 @@ if ((Test-Path "~\.config\nvim\") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"
 }
 
 # set up alternate yazi config Path
-if ((Test-Path Env:YAZI_CONFIG_HOME) -and ($env:YAZI_CONFIG_HOME -ne "~\.config\yazi")) {
+if (-not (Test-Path Env:YAZI_CONFIG_HOME) -or ($env:YAZI_CONFIG_HOME -ne "~\.config\yazi")) {
   [Environment]::SetEnvironmentVariable
     ("YAZI_CONFIG_HOME", "~\.config\yazi", [System.EnvironmentVariableTarget]::User)
 }

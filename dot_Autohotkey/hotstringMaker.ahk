@@ -1,12 +1,23 @@
-; Variables
-textDir := ".\\hotstrings\\" ; Path to directory of text files to use
+; Usernames that should load work hotstrings.
+workUsernames := ["mhixon"]
+isWork := false
+for _, wUser in workUsernames {
+  if (A_UserName = wUser) {
+    isWork := true
+    break
+  }
+}
+
 prefix := "::]"
 
-; Main 
-Loop Files, textDir "*.txt"
-{
-  fileName := StrReplace(A_LoopFileName, ".txt", "")
-  hotstringActivation := prefix . fileName
-  fileContent := FileRead(textDir . A_LoopFileName)
-  Hotstring(hotstringActivation, fileContent)
+LoadHotstringsFromDir(dir) {
+  global prefix
+  Loop Files, dir "*.txt" {
+    fileName := StrReplace(A_LoopFileName, ".txt", "")
+    Hotstring(prefix . fileName, FileRead(dir . A_LoopFileName))
+  }
 }
+
+LoadHotstringsFromDir(A_ScriptDir "\hotstrings\general\")
+if (isWork)
+  LoadHotstringsFromDir(A_ScriptDir "\hotstrings\work\")

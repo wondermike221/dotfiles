@@ -1,6 +1,6 @@
 @echo off
-SET "FILE_TO_CHECK=.\includes.ahk"
-SET "AHK_SCRIPT=.\main.ahk"
+SET "FILE_TO_CHECK=%~dp0includes.ahk"
+SET "AHK_SCRIPT=%~dp0main.ahk"
 
 REM Check if the file exists
 IF NOT EXIST "%FILE_TO_CHECK%" (

@@ -1,0 +1,7 @@
+This is a test canned message
+
+Look ma!
+
+Newlines\n
+
+Haha!

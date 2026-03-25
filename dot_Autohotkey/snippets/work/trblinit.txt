@@ -1,0 +1,10 @@
+Here are some troubleshooting steps you can take. (if none of this helps we can schedule a time to connect over a remote session):
+
+- Restart your computer
+- clear your cache & cookies: click on the three dots at the top right of the browser (or three lines) -> change the time period to longer if necessary -> click delete data
+- Run the ITSS health check tool and copy the results here
+- run a sync in company portal: click on the gear at the bottom left -> click sync
+- check the compliance tab in software center (screenshot any errors if there are any)
+- visit https://devicecheck.corp.ebay.com and note the results
+
+I am available most times M-F 9-5 MST.

@@ -26,6 +26,7 @@ UpdateIncludesFile(includeDirectoryPath, includesFilePath)
 #include "caps-ctrl-esc.ahk"
 #include "Lib/jsongo.v2.ahk"
 #include "Lib/peep.v2.ahk"
+#include "snippetManager.ahk"
 
 ^F12:: {
     Send("{F20}")

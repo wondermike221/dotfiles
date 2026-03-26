@@ -1,7 +1,4 @@
-; email shortcuts
-:*:]a@::mhixon-a@ebay.com ; admin email
-:*:]@@::mhixon@ebay.com ; corp email
-:*:]addr::339 W 13490 S Floor 5, Draper, UT 84020 ;office address
+; email shortcuts (moved to hotstrings/work/emails/*.txt)
 ::]inet::{
    inet := FileRead("C:\Users\mhixon\Desktop\macros\inet.txt")
    SendText(inet)
@@ -10,7 +7,6 @@
   SendText("eBay B&H Orders ")
   Send(FormatTime(, "MM/dd/yy"))  ; It will look like 09/01/2005 3:53 PM
 }
-::]dl::DL-eBay-GSS-Deskside-AMER-
 
 ;Splunk help
 ::]sworkstation::{
@@ -18,9 +14,7 @@
   SendText(' Source_Workstation="\\\\*"')
 }
 
-; link shortcuts
-:*:]go::https://go/
-::]proxy::https://c2syubi.vip.ebay.com/wpadyubi.pac
+; link shortcuts (moved to hotstrings/work/links/*.txt)
 fedex_hotlink()
 {
   SendText("https://www.fedex.com/fedextrack/?trknbr=")
@@ -42,29 +36,10 @@ ups_hotlink()
 :*:]scaffold::{ ;date|site|what|qty|workorder|email|cost center|who|address1|address2|city|state|zip|phone|country|tracking #|packed|label created|ready for pickup|return label|cross charged
   SendText(Format("{1}`tSLC`t`t1`tWalk In`t`t`t`t`t`t`t`t`t`tUSA`t_office`t`t`t`tn",FormatTime(, "MM/dd/yy")))
 }
-:*:]drop::_dropshipped`ty`ty`ty
-:r*:]xlnmct::=[@ContactFirstName] & " " & [@ContactLastName]
 
-; chat support shortcuts
-:r*:]cintro::Thank you for contacting ITSS support! My name is Michael and I will be assisting you today!
-:r*:]coutro::Thank you for contacting ITSS support! Again my name is Michael. Hope you have a wonderful day!
-:r*:]fhelp::Do you have anything else that I can be an assistance with?
-
-; chat shortcuts
-:r*:]booked::I'd love to help but I'm fully booked today. I recommend starting a chat with one of our 24/7 technicians via MyIT or if you can't access MyIT you can call the number on the back of your badge (+1-408-376-7474).
-:r*:]software::Your software has been ordered and I will follow up with more information once I hear back from our procurement specialist.
-:r*:]ord::
-{
-  SendText("Your items have been ordered and I will email you the tracking details as soon as our supplier ships them.`nPlease email me if you have any questions or concerns (mhixon@ebay.com).`nThanks!",)
-}
+; chat support shortcuts (moved to hotstrings/work/chat/*.txt)
 
 ; Collect PC shortcuts
-:*:]eeeacn::eBay Exited Employee Asset Collection Notification
-:*:]qr::
-{
-  SendText("Name: `nAddress: `nCity: `nZip: `nState: `nPhone: `nEmail: `nTicket: `nCost Center: `nS/N: ")
-}
-:*:]eeir::Exited Employee Information Request -
 :*:]ritequip::
 {
   SendText("Can I get Contact info for the following exited employee:`n")
@@ -99,17 +74,12 @@ nameNTScaffMulti(clipboardContent)
     }
     return output
 }
-:*:]nasset::No assets per Helix, Azure and Splunk. Closing.
-:*:]-r::--redacted--
-:*:]rec::received at SLC.
-:*:]esubj::Request for Returned Equipment – 
 :*:]lescalate::
 {
   SendText("Three strikes. ")
   SendText(A_Clipboard)
   SendText(" still deployed.`nEscalating to legal.")
 }
-::]retreq::You will need to return most eBay-issued items, including any laptops, phones, power adapters, and Yubikeys. Accessories such as monitors, keyboards, and headsets may be kept or disposed of.
 
 
 :*:]assetScaff::
@@ -145,11 +115,6 @@ nameNTScaffMulti(clipboardContent)
 {
   SendText("Address for Shipment`nSalt Lake City, UT/Remote: 173 W. Election Rd, Draper, UT 84020`nSan Jose, CA: 2145 Hamilton Ave, San Jose, CA 95125`nAustin, TX: 7700 W. Parmer Lane, Austin, TX 78729`nBellevue, WA: 411 108th Ave NE, Bellevue, WA 98004`nNew York, NY: 625 6th Ave., New York, NY 10011`nPortland, OR: 1400 SW 5th Ave., Floor 10, Portland, OR 97201")
 }
-
-:r*:]deliv::
-{
-  SendText("Apologies for missing your tracking status notification. It looks like your items have been delivered so I'll go ahead and close your ticket. Please let me know if anything hasn't been delivered so I can remedy that.`nThanks!")
-}
 :r*:]cl::
 {
   SendText("Chat log:")
@@ -157,9 +122,7 @@ nameNTScaffMulti(clipboardContent)
   Send('{ctrl down} v {ctrl up}')
 }
 
-; other
-::]sn::S/N:
-::]na::n/a
+; other (moved to hotstrings/work/other/*.txt)
 
 ; SNOW
 :r*:]snowinc::
@@ -340,9 +303,3 @@ join(strArray)
     return s
 }
 
-:*:]adobelic::
-(
-Your Adobe License for <PRODUCT> has been assigned.  License activation could take up to 1 hour.  You may need to log out of Adobe Creative Cloud and log back in for the changes to take effect.
-To install, please open the Adobe Creative Cloud Desktop application on your computer.  You can install individual Adobe applications from there.
-If you do not have the Creative Cloud Desktop application installed, open Software Center (Windows) or Self Service (Mac) on your machine and install the Creative Cloud Desktop application.
-)

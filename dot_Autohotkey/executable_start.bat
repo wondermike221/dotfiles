@@ -1,5 +1,4 @@
 @echo off
-
 cd /d "%~dp0"
 SET "FILE_TO_CHECK=.\includes.ahk"
 SET "AHK_SCRIPT=.\main.ahk"

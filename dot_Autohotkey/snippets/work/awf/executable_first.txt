@@ -1,0 +1,21 @@
+To: <POC@vendor>
+
+Subject: eBay Asset Return for <exited contractor name>
+
+Body:
+
+Hi <point of contact>,
+
+We are looking for the return information for <device type, model, asset tag and serial number> from an exited member of your team <full name>. Please provide the following information so we can ensure proper processing for this asset return.
+
+Carrier:
+
+Tracking Number:
+
+Ebay office being shipped to:
+
+As a reminder we ask for all ebay items to be returned, laptop, badge, company phone and related. We do ask for items to be returned within 10 days. 
+
+Thank you for you cooperation,
+
+<Signature>

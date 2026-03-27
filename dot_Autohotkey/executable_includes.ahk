@@ -1,7 +1,0 @@
-#Include "C:\Users\mhixon\.Autohotkey\include\general\hotkeys.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\general\hotstrings.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\obsidian.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\work\auto_qr.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\work\enter_tab_toggle.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\work\work_hotkeys.ahk"
-#Include "C:\Users\mhixon\.Autohotkey\include\work\work_hotstrings.ahk"

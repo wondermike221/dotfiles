@@ -56,6 +56,7 @@ UpdateIncludesFile(
 #include "Lib/jsongo.v2.ahk"
 #include "Lib/peep.v2.ahk"
 #include "snippetManager.ahk"
+#include "DateTool.ahk"
 
 #=::{
    MsgBox("reloaded script")

@@ -122,7 +122,6 @@ workspaces:
   - name: "0"
   - name: ";"
   - name: "obsidian"
-  - name: "chat"
   - name: "code"
   - name: "spotify"
 
@@ -165,10 +164,6 @@ window_rules:
       - window_class: { regex: "WinUIDesktopWin32WindowClass" }
       - window_title: { regex: "Command Palette" }
       - window_process: { equals: "PanGPA" }
-
-  - commands: ["move --workspace chat"]
-    match:
-      - window_process: { equals: "slack" }
 
 binding_modes:
   # When enabled, the focused window can be resized via arrow keys or HJKL.
@@ -239,11 +234,11 @@ keybindings:
 
   # Change focus from tiling windows -> floating -> fullscreen.
   - commands: ["wm-cycle-focus"]
-    bindings: ["alt+shift+space"]
+    bindings: ["alt+x"]
 
   # Change the focused window to be floating.
-  # - commands: ['toggle-floating --centered']
-  # bindings: ['alt+shift+space']
+  - commands: ['toggle-floating --centered']
+    bindings: ['alt+shift+x']
 
   #Disables window management and all other keybindings until alt+shift+p is pressed again.
   - commands: ["wm-toggle-pause"]
@@ -327,8 +322,6 @@ keybindings:
     bindings: ["alt+g"]
   - commands: ["focus --workspace ;"]
     bindings: ["alt+oem_semicolon"]
-  - commands: ["focus --workspace chat"]
-    bindings: ["alt+x"]
   - commands: ["focus --workspace code"]
     bindings: ["alt+c"]
 
@@ -370,7 +363,5 @@ keybindings:
     bindings: ["alt+shift+g"]
   - commands: ["move --workspace ;", "focus --workspace ;"]
     bindings: ["alt+shift+oem_semicolon"]
-  - commands: ["move --workspace chat", "focus --workspace chat"]
-    bindings: ["alt+shift+x"]
   - commands: ["move --workspace code", "focus --workspace code"]
     bindings: ["alt+shift+c"]

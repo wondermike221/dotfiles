@@ -119,7 +119,7 @@ nameNTScaffMulti(clipboardContent)
 {
   SendText("Chat log:")
   Send('{Enter}')
-  Send('{ctrl down} v {ctrl up}')
+  Send('{ctrl down}v{ctrl up}')
 }
 
 ; other (moved to hotstrings/work/other/*.txt)

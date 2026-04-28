@@ -8,3 +8,12 @@
   url = "https://raw.githubusercontent.com/GroggyOtter/PeepAHK/refs/heads/main/script/Peep.v2.ahk"
   refreshPeriod = "168h"
 
+["repos/glazewm-session-restore"]
+  type = "git-repo"
+  url  = "https://github.com/wondermike221/glazewm-session-restore.git"
+
+  [repos/glazewm-session-restore.clone]
+    args = ["--depth", "1"]
+
+  [repos/glazewm-session-restore.pull]
+    args = ["--ff-only"]

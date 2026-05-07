@@ -5,8 +5,10 @@ $DOTCONFIGDIR = "$env:USERPROFILE\.config"
 $NVIMRC = "$env:LOCALAPPDATA\nvim"
 
 # Note Vaults
-$life = "C:\Users\mhixon\Not OneDrive\life"
-$work = "C:\Users\mhixon\Not OneDrive\work"
+$life = switch ($env:USERNAME) {
+    'mhixon' { "C:\Users\mhixon\life" }
+    'micha'  { "C:\Users\micha\OneDrive\life" }
+}
 
 # Alias'
 Set-Alias -Name n -Value nvim
@@ -243,4 +245,22 @@ function y {
         Set-Location -LiteralPath $cwd
     }
     Remove-Item -Path $tmp
+}
+
+function Set-Clip-From-File {
+  param (
+    [Parameter(Mandatory=$true)]
+    [ValidateScript({ Test-Path $_ -PathType Leaf })]
+    [string]$filePath
+  )
+  Get-Content $filePath | Set-Clipboard
+}
+
+function Set-Clip-To-File {
+  param (
+    [Parameter(Mandatory=$true)]
+    [ValidateScript({ Test-Path (Split-Path $_) -PathType Container })]
+    [string]$filePath
+  )
+  Set-Content -Path $filePath -Value (Get-Clipboard)
 }

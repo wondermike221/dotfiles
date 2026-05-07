@@ -259,8 +259,9 @@ function Set-Clip-From-File {
 function Set-Clip-To-File {
   param (
     [Parameter(Mandatory=$true)]
-    [ValidateScript({ Test-Path (Split-Path $_) -PathType Container })]
+    [ValidateScript({ $p = Split-Path $_; if (-not $p) { $p = '.' }; Test-Path $p -PathType Container })]
     [string]$filePath
   )
+  if (-not (Test-Path $filePath)) { New-Item -ItemType File -Path $filePath | Out-Null }
   Set-Content -Path $filePath -Value (Get-Clipboard)
 }

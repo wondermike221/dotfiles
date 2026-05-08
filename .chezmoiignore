@@ -1,0 +1,17 @@
+# Claude Code ephemeral/cache dirs
+.claude/projects
+.claude/plugins
+.claude/cache
+.claude/sessions
+.claude/session-env
+.claude/shell-snapshots
+.claude/statsig
+.claude/debug
+.claude/downloads
+.claude/backups
+.claude/file-history
+.claude/history.jsonl
+.claude/tasks
+.claude/todos
+.claude/ide
+.claude/scheduled_tasks.json

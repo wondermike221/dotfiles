@@ -1,0 +1,31 @@
+{
+  "apiKeyHelper": "powershell -NonInteractive -File C:\\Users\\mhixon\\repos\\claude-code-windows\\ebay-api-key-helper.ps1",
+  "env": {
+    "ANTHROPIC_MODEL": "claude-sonnet-4-6",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-4-6",
+    "ANTHROPIC_SMALL_FAST_MODEL": "claude-sonnet-4-6",
+    "ANTHROPIC_BASE_URL": "https://platformgateway2.vip.ebay.com/hubgptgatewaysvc/v1/anthropic",
+    "CLAUDE_CODE_API_KEY_HELPER_TTL_MS": "360000000",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
+    "ENABLE_TOOL_SEARCH": "0",
+    "DISABLE_TELEMETRY": "1"
+  },
+  "enabledPlugins": {
+    "obsidian@obsidian-skills": true,
+    "caveman@caveman": true
+  },
+  "extraKnownMarketplaces": {
+    "obsidian-skills": {
+      "source": {
+        "source": "github",
+        "repo": "kepano/obsidian-skills"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  }
+}

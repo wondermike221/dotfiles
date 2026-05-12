@@ -33,8 +33,11 @@ if ($neovimInstalled -and (-not ($editorEnvExists) )) {
 }
 
 # set up lazyvim
-if ((Test-Path "~\.config\nvim\") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
-  New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target C:\Users\mhixon\.config\nvim\
+if (-not (Test-Path "$HOME\.config\nvim")) {
+  git clone https://github.com/wondermike221/nvim-config "$HOME\.config\nvim"
+}
+if ((Test-Path "$HOME\.config\nvim") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
+  New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
 }
 
 # set up alternate yazi config Path

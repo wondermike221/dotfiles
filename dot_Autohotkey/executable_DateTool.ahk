@@ -111,7 +111,7 @@ MyAutoCorrectFileName := "..\Core\AutoCorrect2.exe" ; <------- CHANGE To NAME of
 ; MARK: User Options
 ; ========================================================
 guiTitle := "DateTool-H"            ; change title if desired
-monthCalHotkey := "!+d"             ; Hotkey: Alt+Shift+D.  Change as desired. 
+monthCalHotkey := "#+d"             ; Hotkey: Win+Shift+D.  Change as desired. 
 ; if monthCalHotkey is changed here, must also update RunDateTool() in AutoCorrect2.ahk. 
 ; TypeOutFormat := "dd-MMM-yyyy"       ; preferred date format for typing date in edit field
 TypeOutFormat := "M-d-yyyy"         ; preferred date format for typing date in edit field

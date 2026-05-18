@@ -1,3 +1,5 @@
+FileEncoding "UTF-8"
+
 ; Variables
 textDir := ".\\hotstrings\\" ; Path to directory of text files to use
 prefix := ":T:]"  ; "T" option = send as Text, not code

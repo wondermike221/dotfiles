@@ -29,6 +29,7 @@ IsRBtnTabNavActive() {
     return _RBtnTabNav && (
         WinActive("ahk_exe chrome.exe")          ||
         WinActive("ahk_exe librewolf.exe")       ||
+        WinActive("ahk_exe thorium.exe")       ||
         WinActive("ahk_exe firefox.exe")         ||
         WinActive("ahk_exe msedge.exe")          ||
         WinActive("ahk_exe zen.exe")             ||

@@ -33,31 +33,34 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
 
 function Sync-WinGetLinks {
     [CmdletBinding()]
-    param(
-        [string]$PackagesPath = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages",
-        [string]$LinksPath    = "$env:LOCALAPPDATA\Microsoft\WinGet\Links"
+    param()
+
+    $scopes = @(
+        @{ Packages = "$env:LOCALAPPDATA\Microsoft\WinGet\Packages"; Links = "$env:LOCALAPPDATA\Microsoft\WinGet\Links" },
+        @{ Packages = "C:\Program Files\WinGet\Packages";            Links = "C:\Program Files\WinGet\Links" }
     )
 
-    # Ensure the Links directory exists
-    if (-not (Test-Path $LinksPath)) {
-        New-Item -ItemType Directory -Path $LinksPath -Force | Out-Null
-    }
+    foreach ($scope in $scopes) {
+        if (-not (Test-Path $scope.Packages)) { continue }
 
-    # Find all EXEs and create missing symlinks
-    Get-ChildItem -Path $PackagesPath -Recurse -Filter *.exe -File | ForEach-Object {
-        $exeName = $_.Name
-        $linkPath = Join-Path $LinksPath $exeName
-
-        if (-not (Test-Path $linkPath)) {
-            try {
-                New-Item -ItemType SymbolicLink -Path $linkPath -Target $_.FullName -Force | Out-Null
-                Write-Verbose "Linked: $exeName → $($_.FullName)"
-            } catch {
-                Write-Warning "Could not link $exeName : $_"
-            }
+        if (-not (Test-Path $scope.Links)) {
+            New-Item -ItemType Directory -Path $scope.Links -Force | Out-Null
         }
-        else {
-            Write-Verbose "Already exists: $linkPath"
+
+        Get-ChildItem -Path $scope.Packages -Recurse -Filter *.exe -File | ForEach-Object {
+            $exeName  = $_.Name
+            $linkPath = Join-Path $scope.Links $exeName
+
+            if (-not (Test-Path $linkPath)) {
+                try {
+                    New-Item -ItemType SymbolicLink -Path $linkPath -Target $_.FullName -Force | Out-Null
+                    Write-Verbose "Linked: $exeName → $($scope.Links)"
+                } catch {
+                    Write-Warning "Could not link $exeName : $_"
+                }
+            } else {
+                Write-Verbose "Already exists: $linkPath"
+            }
         }
     }
 }

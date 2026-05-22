@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chezmoi status:*)"
+      "Bash(chezmoi status:*)",
+      "Bash(chezmoi source-path *)"
     ]
   }
 }

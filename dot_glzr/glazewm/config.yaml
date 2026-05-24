@@ -2,7 +2,9 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands: ["shell-exec zebar"]
+  # GAT-GWM install cmd V
+  # cargo install --git https://github.com/Dutch-Raptor/GAT-GWM.git --features=no_console
+  startup_commands: ["shell-exec zebar", "shell-exec gat-gwm"]
 
   # How windows should be hidden when switching workspaces.                 ..
   # - 'cloak': Recommended. Hides windows with no animation.                ..
@@ -237,8 +239,8 @@ keybindings:
     bindings: ["alt+x"]
 
   # Change the focused window to be floating.
-  - commands: ['toggle-floating --centered']
-    bindings: ['alt+shift+x']
+  - commands: ["toggle-floating --centered"]
+    bindings: ["alt+shift+x"]
 
   #Disables window management and all other keybindings until alt+shift+p is pressed again.
   - commands: ["wm-toggle-pause"]

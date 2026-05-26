@@ -75,6 +75,14 @@ mise activate pwsh | Out-String | Invoke-Expression
 # Start zoxide
 Invoke-Expression (& { (zoxide init powershell --cmd cd | Out-String) })
 
+# Dynamic tab title: show current directory name
+function prompt {
+    $leaf = Split-Path -Leaf $PWD.Path
+    if ([string]::IsNullOrEmpty($leaf)) { $leaf = $PWD.Path }
+    $host.UI.RawUI.WindowTitle = $leaf
+    "PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) "
+}
+
 # eBay specific settings
 #
 # Helpers for dealing with dash a password

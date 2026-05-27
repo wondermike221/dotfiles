@@ -1,3 +1,21 @@
+; Win+T — auto-detect carrier from clipboard, open tracking in Chrome (eBay Work profile)
+#t::OpenTrackingWindow()
+OpenTrackingWindow() {
+    trk := Trim(A_Clipboard)
+    if StrLen(trk) > 2000 {
+        MsgBox("Clipboard too large to use as a tracking number (" . StrLen(trk) . " chars).", "Tracking", "Icon!")
+        return
+    }
+    if RegExMatch(trk, "^1Z[A-Z0-9]{16}$") {
+        url := "https://www.ups.com/track?track=yes&trackNums=" . trk
+    } else if RegExMatch(trk, "^\d{12}$|^\d{15}$|^\d{20}$|^\d{22}$|^96\d{20}$|^DT\d+$") {
+        url := "https://www.fedex.com/fedextrack/?trknbr=" . trk
+    } else {
+        url := "https://www.google.com/search?q=" . trk
+    }
+    Run('"C:\Program Files\Google\Chrome\Application\chrome.exe" --profile-directory="Profile 1" --new-window "' . url . '"')
+}
+
 ^!r::{ ; -a pass
    apass := FileRead("C:\Users\mhixon\Desktop\macros\apass.txt")
    SendText(apass)

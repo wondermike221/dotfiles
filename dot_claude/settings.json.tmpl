@@ -1,3 +1,4 @@
+{{- if eq .chezmoi.username "mhixon" -}}
 {
   "apiKeyHelper": "npx @ebay/claude-code-token@latest get_token",
   "env": {
@@ -16,7 +17,8 @@
     "superpowers@superpowers-marketplace": true,
     "frontend-design@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "claude-mem@thedotmack": false
+    "claude-mem@thedotmack": false,
+    "agentmemory@agentmemory": true
   },
   "extraKnownMarketplaces": {
     "obsidian-skills": {
@@ -45,3 +47,42 @@
     }
   }
 }
+{{- else -}}
+{
+  "enabledPlugins": {
+    "obsidian@obsidian-skills": true,
+    "caveman@caveman": true,
+    "superpowers@superpowers-marketplace": true,
+    "frontend-design@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "claude-mem@thedotmack": false,
+    "agentmemory@agentmemory": true
+  },
+  "extraKnownMarketplaces": {
+    "obsidian-skills": {
+      "source": {
+        "source": "github",
+        "repo": "kepano/obsidian-skills"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    },
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  }
+}
+{{- end }}

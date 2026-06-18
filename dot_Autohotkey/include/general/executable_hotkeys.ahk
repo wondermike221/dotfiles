@@ -14,16 +14,20 @@ ToggleApp() {
     return
 }
 
+TimeNow() {
+  Send(A_Hour . ":" A_Min)
+}
 TodaysDate() {
   Send(FormatTime(, "MM/d/yy"))  ; It will look like 9/1/2005 3:53 PM
 }
 FileFriendlyDate() {
   Send(FormatTime(, "yyyy-MM-d"))
 }
-::]d::TodaysDate()
+:X:]d::(TodaysDate())
 ^;::TodaysDate()
 ^+;::FileFriendlyDate()
-::]fd::FileFriendlyDate()
+:X:]now::(TimeNow())
+:X:]fd::FileFriendlyDate()
 
 ^+WheelUp::SendInput("^+{Tab}")
 ^+WheelDown::SendInput("^{Tab}")
@@ -52,7 +56,6 @@ _IsTabNavWindow(hwnd) {
              || proc = "firefox.exe"
              || proc = "msedge.exe"
              || proc = "zen.exe"
-             || proc = "discord.exe"
              || proc = "WindowsTerminal.exe")
     }
     return false

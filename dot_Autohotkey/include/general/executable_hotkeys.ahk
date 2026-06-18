@@ -52,6 +52,7 @@ _IsTabNavWindow(hwnd) {
              || proc = "firefox.exe"
              || proc = "msedge.exe"
              || proc = "zen.exe"
+             || proc = "discord.exe"
              || proc = "WindowsTerminal.exe")
     }
     return false

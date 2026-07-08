@@ -18,7 +18,10 @@ Function l {eza -lh}
 Function la {eza -alh}
 Function lt {eza --tree --git-ignore}
 
-Function wua {winget update --all --include-unknown --accept-source-agreements --accept-package-agreements}
+Function wua {
+  winget update --all --include-unknown --accept-source-agreements --accept-package-agreements
+  Sync-WinGetLinks
+}
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)

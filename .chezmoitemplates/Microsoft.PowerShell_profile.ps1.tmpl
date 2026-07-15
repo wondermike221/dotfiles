@@ -124,7 +124,8 @@ function y {
         Set-Location -LiteralPath $cwd
     }
     Remove-Item -Path $tmp
-    Clear-Host
+    #Temp fix for yazi improperly exiting altnerate buffer
+    [Console]::Write("`e[?1049l")
 }
 
 function Set-Clip-From-File {

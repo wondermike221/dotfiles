@@ -1,0 +1,104 @@
+{
+	"name": "Vimium C",
+	"@time": "7/16/2026, 3:37:29 PM",
+	"time": 1784237849588,
+	"environment": {
+		"extension": "2.12.2",
+		"platform": "win",
+		"chromium": 150
+	},
+	"allBrowserUrls": true,
+	"exclusionRules": [
+		{
+			"passKeys": "",
+			"pattern": ":https://mail.google.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://monkeytype.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.nytimes.com/games/wordle/index.html"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://codeshare.io/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.merriam-webster.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://www.merriam-webster.com/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://editor.graphite.rs/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://editor.graphite.rs/"
+		},
+		{
+			"passKeys": "",
+			"pattern": ":https://lessgames.com/"
+		}
+	],
+	"keyLayout": 10,
+	"keyMappings": [
+		"#!no-check",
+		"map Y copyWindowInfo type=\"window\" format=\"${url}\"",
+		"",
+		"# --- Obsidian Reading List Templates ---",
+		"# press 'o' then 'm' for a standard Markdown link list",
+		"map om copyWindowInfo type=\"window\" format=\"-\\u0020[${title}](${url})\"",
+		"# press 'o' then 'c' for Obsidian Info Callouts",
+		"map oc copyWindowInfo type=\"window\" format=\">\\u0020[!info]\\u0020${title}\\n>\\u0020Link:\\u0020[Open\\u0020Page](${url})\\n>\\u0020\\n>\\u0020**Quick\\u0020Notes:**\\u0020\\n\"",
+		"# press 'o' then 't' for an Obsidian Task Checklist",
+		"map ot copyWindowInfo type=\"window\" format=\"-\\u0020[\\u0020]\\u0020[${title}](${url})\\n\\u0020\\u0020\\u0020\\u0020-\\u0020**Key\\u0020Takeaways:**\\u0020\\n\"",
+		"# press 'o' then 'b' for Markdown Table Rows",
+		"map ob copyWindowInfo type=\"window\" format=\"|\\u0020[${title}](${url})\\u0020|\\u0020\\u0020|\"",
+		""
+	],
+	"searchEngines": [
+		"bi: https://cn.bing.com/search?q=$s",
+		"bi|bing: https://www.bing.com/search?q=%s \\",
+		"  blank=https://www.bing.com/ Bing",
+		"g|go|gg|google|Google: https://www.google.com/search?q=%s \\",
+		"  www.google.com re=/^(?:\\.[a-z]{2,4})?\\/search\\b.*?[#&?]q=([^#&]*)/i\\",
+		"  blank=https://www.google.com/ Google",
+		"d|dd|ddg|duckduckgo: https://duckduckgo.com/?q=%s DuckDuckGo",
+		"",
+		"g.m|gm|g.map|gmap: https://www.google.com/maps?q=%s \\",
+		"  blank=https://www.google.com/maps Google Maps",
+		"$y|yt: https://www.youtube.com/results?search_query=%s \\",
+		"  blank=https://www.youtube.com/ YouTube",
+		"w|wiki: https://www.wikipedia.org/w/index.php?search=%s Wikipedia",
+		"g.s|gs|gscholar: https://scholar.google.com/scholar?q=$s \\",
+		"  scholar.google.com re=/^(?:\\.[a-z]{2,4})?\\/scholar\\b.*?[#&?]q=([^#&]*)/i\\",
+		"  blank=https://scholar.google.com/ Google Scholar",
+		"",
+		"a|ae|ali|alie|aliexp: https://www.aliexpress.com/wholesale?SearchText=%s \\",
+		"  blank=https://www.aliexpress.com/ AliExpress",
+		"j|jd|jb|joy|joybuy: https://www.joybuy.com/search?keywords=%s \\",
+		"  blank=https://www.joybuy.com/ Joybuy",
+		"az|amazon: https://www.amazon.com/s?k=%s \\",
+		"  blank=https://www.amazon.com/ Amazon",
+		"",
+		"\\:i: vimium://sed/s/^//,lower\\ $S re= Lower case",
+		"v.m|math: vimium://math\\ $S re= Calculate",
+		"v.p: vimium://parse\\ $S re= Redo Search",
+		"gh|github: https://github.com/search?q=$s \\",
+		"  blank=https://github.com/ GitHub Repo",
+		"ge|gitee: https://search.gitee.com/?type=repository&q=$s \\",
+		"  blank=https://gitee.com/ Gitee 仓库",
+		"js\\:|Js: javascript:\\ $S; JavaScript",
+		""
+	],
+	"searchUrl": "https://duckduckgo.com/?q=$s DuckDuckGo",
+	"showAdvancedCommands": false,
+	"vimSync": true,
+	"ignoreKeyboardLayout": 1
+}

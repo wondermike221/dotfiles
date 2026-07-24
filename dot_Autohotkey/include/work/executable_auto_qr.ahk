@@ -6,27 +6,30 @@
   ; peep(content)
 
   Send(content["user"]["dv_first_name"])
-  Send("{Tab}")
+  Send(" ")
   Send(content["user"]["dv_last_name"])
   Send("{Tab}")
+  Send("{Tab}")
   Send(content["task_u_vars"]["street_address"])
+  Sleep(500)
+  Send("{Tab}")
   Send("{Tab}")
   Send("{Tab}")
   Send(content["task_u_vars"]["city"])
   Send("{Tab}")
   if(content["task_u_vars"].Has("v_state") and State_Abbr_To_Name(content["task_u_vars"]["v_state"]) != "") 
   {
-    Send("{Enter}")
-    Sleep(500)
+    Sleep(100)
     Send(State_Abbr_To_Name(content["task_u_vars"]["v_state"]))
-    Send("{Enter}")
-    Send("{Tab}")
+    Sleep(100)
   }
   Send("{Tab}")
   Send(content["task_u_vars"]["zip"])
   Send("{Tab}")
+  Send("{Tab}")
   Send(content["task_u_vars"]["contact_number"])
   Send("{Tab}")
+  Sleep(100)
   Send(content["task_u_vars"]["contact_email"])
   Send("{Tab}")
 }
@@ -57,8 +60,7 @@
   }
   Send(serials)
   Send("{Tab}")
-  Send("1000")
-  Send("{Tab}{Enter}{Enter}{Tab}{Tab}{Tab}")
+  Send("{Tab}")
 }
 
 

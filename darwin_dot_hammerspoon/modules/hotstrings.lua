@@ -86,4 +86,50 @@ end
 M.add("]shrug", "¯\\_(ツ)_/¯")
 M.add("]nato", "https://militaryalphabet.net/")
 
+-- NATO phonetic alphabet: ]na through ]nz
+local natoWords = {
+  "Alpha","Bravo","Charlie","Delta","Echo","Foxtrot","Golf","Hotel",
+  "India","Juliet","Kilo","Lima","Mike","November","Oscar","Papa",
+  "Quebec","Romeo","Sierra","Tango","Uniform","Victor","Whiskey",
+  "X-Ray","Yankee","Zulu",
+}
+local alpha = "abcdefghijklmnopqrstuvwxyz"
+for i = 1, 26 do
+  M.add("]n" .. alpha:sub(i, i), natoWords[i])
+end
+
+-- Clipboard → comma-separated values
+M.add("]csv", function()
+  local cb = hs.pasteboard.getContents() or ""
+  cb = cb:gsub("\r\n", ","):gsub("\n", ",")
+  typeText(cb)
+end)
+
+-- Form filler: types tab-delimited clipboard data into form fields.
+-- Tab between cells, Enter between rows, no trailing Enter on empty last row.
+M.add("]formfill", function()
+  local input = hs.pasteboard.getContents() or ""
+  input = input:gsub("\r\n", "\n"):gsub("\r", "\n")
+  input = input:gsub("\n$", "")
+
+  local rows = {}
+  for row in (input .. "\n"):gmatch("([^\n]*)\n") do
+    table.insert(rows, row)
+  end
+
+  for i, row in ipairs(rows) do
+    local fields = {}
+    for field in (row .. "\t"):gmatch("([^\t]*)\t") do
+      table.insert(fields, field)
+    end
+    for j, field in ipairs(fields) do
+      if #field > 0 then hs.eventtap.keyStrokes(field) end
+      if j < #fields then hs.eventtap.keyStroke({}, "tab", 0) end
+    end
+    if i < #rows or rows[#rows] ~= "" then
+      hs.eventtap.keyStroke({}, "return", 0)
+    end
+  end
+end)
+
 return M

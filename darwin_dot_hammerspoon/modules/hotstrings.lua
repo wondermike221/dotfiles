@@ -1,11 +1,37 @@
 -- Text expansion engine. Watches keystrokes, matches triggers, fires expansions.
--- Usage: M.add("]trigger", "replacement text")
+-- Usage: M.add("]trigger", "static text")
 --        M.add("]trigger", function() ... end)  -- for clipboard/dynamic expansions
--- Call M.start() after adding all expansions.
+-- Handles \n (newlines) and \t (tabs) in string expansions.
+-- Call M.start() after all expansions are registered.
 
 local M = {}
 local buffer = ""
 local expansions = {}
+
+local function typeSegment(text)
+  local parts = {}
+  for part in (text .. "\t"):gmatch("([^\t]*)\t") do
+    table.insert(parts, part)
+  end
+  for i, part in ipairs(parts) do
+    if #part > 0 then hs.eventtap.keyStrokes(part) end
+    if i < #parts then hs.eventtap.keyStroke({}, "tab", 0) end
+  end
+end
+
+local function typeText(text)
+  text = text:gsub("\r\n", "\n"):gsub("\n$", "")
+  local lines = {}
+  for line in (text .. "\n"):gmatch("([^\n]*)\n") do
+    table.insert(lines, line)
+  end
+  for i, line in ipairs(lines) do
+    typeSegment(line)
+    if i < #lines then hs.eventtap.keyStroke({}, "return", 0) end
+  end
+end
+
+M.typeText = typeText
 
 local tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
   local keyCode = e:getKeyCode()
@@ -28,7 +54,7 @@ local tap = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
         if type(action) == "function" then
           action()
         else
-          hs.eventtap.keyStrokes(action)
+          typeText(action)
         end
         return true
       end
@@ -55,5 +81,9 @@ end
 function M.stop()
   tap:stop()
 end
+
+-- General expansions
+M.add("]shrug", "¯\\_(ツ)_/¯")
+M.add("]nato", "https://militaryalphabet.net/")
 
 return M

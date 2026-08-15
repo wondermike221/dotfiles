@@ -1,3 +1,5 @@
+{{- $machine := env "GLAZEWM_MACHINE" -}}
+{{- $isMainPersonal := and (not .isWork) (eq $machine "main") -}}
 general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
@@ -113,19 +115,61 @@ window_behavior:
 
 workspaces:
   - name: "1"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 0
+{{- end }}
   - name: "2"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "3"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "4"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "5"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "6"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "7"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "8"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "9"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "0"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: ";"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "obsidian"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "code"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
   - name: "spotify"
+{{- if $isMainPersonal }}
+    bind_to_monitor: 1
+{{- end }}
 
 window_rules:
   - commands: ["ignore"]

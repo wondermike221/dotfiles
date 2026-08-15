@@ -1,2 +1,3 @@
 -- Work-specific hotkeys. Only loaded when IS_WORK = true.
--- Add hs.hotkey.bind() calls here as macros are ported from AHK.
+
+require("modules.work.scanning")

@@ -1,2 +1,7 @@
+{{- $isWork := promptBoolOnce . "isWork" "Is this a work machine?" -}}
+{{- if eq .chezmoi.os "windows" }}
 [cd]
   command = "pwsh.exe"
+{{- end }}
+[data]
+  isWork = {{ $isWork }}

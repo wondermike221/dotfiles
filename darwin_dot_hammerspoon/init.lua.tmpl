@@ -1,0 +1,18 @@
+-- Managed by chezmoi — edit source at darwin_dot_hammerspoon/init.lua.tmpl
+IS_WORK = {{ .isWork }}
+
+hs.window.animationDuration = 0
+hs.hotkey.alertDuration = 0
+
+-- Auto-reload on any config change
+hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
+
+local hotkeys = require("modules.hotkeys")
+local hotstrings = require("modules.hotstrings")
+
+hotstrings.start()
+
+if IS_WORK then
+  require("modules.work.hotkeys")
+  require("modules.work.hotstrings")
+end

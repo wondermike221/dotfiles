@@ -1,5 +1,5 @@
 {{- $machine := env "GLAZEWM_MACHINE" -}}
-{{- $isWork := eq .chezmoi.username "mhixon" -}}
+{{- $isWork := hasSuffix "mhixon" .chezmoi.username -}}
 {{- $isMainPersonal := and (not $isWork) (eq $machine "main") -}}
 general:
   # Commands to run when the WM has started. This is useful for running a

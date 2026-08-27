@@ -1,0 +1,133 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Managed by chezmoi. Re-runs when packages.txt changes.
+# packages: {{ include "packages.txt" | sha256sum }}
+
+$ErrorActionPreference = "Continue"
+$isWork = $env:USERNAME -like "*mhixon"
+$pkgsFile = "$HOME\packages.txt"
+
+#region helpers
+
+function Get-Pkgs([string]$section) {
+    $in = $false
+    foreach ($line in Get-Content $pkgsFile) {
+        if ($line -match "^\[$([regex]::Escape($section))\]\s*$") {
+            $in = $true
+        } elseif ($line -match "^\[") {
+            $in = $false
+        } elseif ($in -and $line.Trim() -and $line -notmatch "^\s*#") {
+            $line.Trim()
+        }
+    }
+}
+
+function Install-Winget([string]$id) {
+    $listed = winget list --id $id --exact 2>$null
+    if (-not ($listed | Select-String ([regex]::Escape($id)))) {
+        Write-Host "  + $id"
+        winget install --id $id --exact --accept-source-agreements --accept-package-agreements --silent
+    }
+}
+
+#endregion
+
+#region packages
+
+Write-Host "==> winget: managers"
+Get-Pkgs "winget-managers" | ForEach-Object { Install-Winget $_ }
+
+Write-Host "==> winget: common"
+Get-Pkgs "winget-common" | ForEach-Object { Install-Winget $_ }
+
+if ($isWork) {
+    Write-Host "==> winget: work"
+    Get-Pkgs "winget-work" | ForEach-Object { Install-Winget $_ }
+} else {
+    Write-Host "==> winget: personal"
+    Get-Pkgs "winget-personal" | ForEach-Object { Install-Winget $_ }
+}
+
+# cargo — runs after rustup is installed above
+$cargoPkgs = @(Get-Pkgs "cargo")
+if ($cargoPkgs.Count -gt 0) {
+    if (Get-Command cargo -ErrorAction SilentlyContinue) {
+        Write-Host "==> cargo"
+        $installedCrates = cargo install --list 2>$null
+        $cargoPkgs | ForEach-Object {
+            if (-not ($installedCrates | Select-String "^$([regex]::Escape($_)) ")) {
+                Write-Host "  + $_"
+                cargo install $_
+            }
+        }
+    } else {
+        Write-Warning "cargo not found — skipping cargo packages (restart shell after rustup install)"
+    }
+}
+
+# mise runtimes — runs after mise is installed above
+$miseRuntimes = @(Get-Pkgs "mise")
+if ($miseRuntimes.Count -gt 0) {
+    if (Get-Command mise -ErrorAction SilentlyContinue) {
+        Write-Host "==> mise"
+        $miseRuntimes | ForEach-Object {
+            Write-Host "  ~ $_"
+            mise install $_
+        }
+    } else {
+        Write-Warning "mise not found — skipping mise runtimes (restart shell after mise install)"
+    }
+}
+
+#endregion
+
+#region one-time setup
+
+Write-Host "==> startup shortcuts"
+$startupFolder = [Environment]::GetFolderPath('Startup')
+
+function New-Shortcut([string]$lnk, [string]$target) {
+    if (-not (Test-Path $lnk) -and (Test-Path $target)) {
+        $ws = New-Object -ComObject WScript.Shell
+        $s = $ws.CreateShortcut($lnk)
+        $s.TargetPath = $target
+        $s.Save()
+        Write-Host "  + shortcut: $lnk"
+    }
+}
+
+New-Shortcut "$startupFolder\start.bat.lnk"   "$HOME\.Autohotkey\start.bat"
+New-Shortcut "$startupFolder\glazewm.exe.lnk"  "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe"
+
+Write-Host "==> env vars"
+$nvimPath = (Get-Command nvim -ErrorAction SilentlyContinue)?.Source
+if ($nvimPath -and [Environment]::GetEnvironmentVariable("EDITOR", "User") -ne $nvimPath) {
+    [Environment]::SetEnvironmentVariable("EDITOR", $nvimPath, "User")
+    Write-Host "  EDITOR=$nvimPath"
+}
+
+if ([Environment]::GetEnvironmentVariable("YAZI_CONFIG_HOME", "User") -ne "~\.config\yazi") {
+    [Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", "~\.config\yazi", "User")
+    Write-Host "  YAZI_CONFIG_HOME=~\.config\yazi"
+}
+
+Write-Host "==> neovim / lazyvim"
+if (-not (Test-Path "$HOME\.config\nvim")) {
+    git clone https://github.com/wondermike221/nvim-config "$HOME\.config\nvim"
+}
+if ((Test-Path "$HOME\.config\nvim") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
+    New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
+    Write-Host "  junction: $env:LOCALAPPDATA\nvim -> $HOME\.config\nvim"
+}
+
+Write-Host "==> system"
+try {
+    if ((Get-Service -Name diagtrack -ErrorAction SilentlyContinue)?.StartupType -ne "Disabled") {
+        sudo powershell -Command "Set-Service -Name diagtrack -StartupType Disabled"
+        Write-Host "  diagtrack disabled"
+    }
+} catch {
+    Write-Warning "Could not disable diagtrack: $_"
+}
+
+#endregion
+{{- end -}}

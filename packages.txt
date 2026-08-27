@@ -1,0 +1,184 @@
+# Package lists for setup scripts.
+# One package ID per line. Blank lines and # comments ignored.
+# Install order: managers → common → personal|work → cargo → mise
+
+# ── Windows (winget) ─────────────────────────────────────────────────────────
+
+[winget-managers]
+# Tool managers: installed before all other winget packages.
+Rustlang.Rustup
+jdx.mise
+
+[winget-common]
+# Installed on every Windows machine.
+Git.Git
+GitHub.cli
+Microsoft.PowerShell
+Nushell.Nushell
+Starship.Starship
+Helix.Helix
+JesseDuffield.lazygit
+sxyazi.yazi
+ajeetdsouza.zoxide
+BurntSushi.ripgrep.MSVC
+sharkdp.fd
+junegunn.fzf
+eza-community.eza
+jqlang.jq
+tldr-pages.tlrc
+twpayne.chezmoi
+Bitwarden.CLI
+Microsoft.WindowsTerminal
+Anysphere.Cursor
+
+[winget-personal]
+# Personal machines only.
+# Browsers
+Ablaze.Floorp
+Mozilla.Firefox
+Google.Chrome
+Brave.Brave
+# Communication / social
+Discord.Discord
+Telegram.TelegramDesktop
+# Productivity
+Obsidian.Obsidian
+ONLYOFFICE.DesktopEditors
+# Media
+VideoLAN.VLC
+OBSProject.OBSStudio
+GIMP.GIMP.3
+Gyan.FFmpeg
+ImageMagick.ImageMagick
+YACReader.YACReader
+mikf.gallery-dl
+# Gaming
+Valve.Steam
+PrismLauncher.PrismLauncher
+ebkr.r2modman
+# Dev tools
+GoLang.Go
+Python.Python.3.12
+DenoLand.Deno
+LLVM.LLVM
+GnuWin32.Make
+zig.zig
+uutils.coreutils
+Azul.Zulu.17.JRE
+MSYS2.MSYS2
+Canonical.Ubuntu
+Docker.DockerDesktop
+Docker.DockerCLI
+VSCodium.VSCodium
+DevToys-app.DevToys
+# Window management / desktop
+glzr-io.glazewm
+Flow-Launcher.Flow-Launcher
+Microsoft.PowerToys
+AltSnap.AltSnap
+StefanSundin.Superf4
+RamenSoftware.Windhawk
+QL-Win.QuickLook
+ShareX.ShareX
+# File management
+FilesCommunity.Files
+WinDirStat.WinDirStat
+RevoUninstaller.RevoUninstaller
+# Terminal / shell
+Eugeny.Tabby
+# Fonts
+DEVCOM.JetBrainsMonoNerdFont
+# AI
+ElementLabs.LMStudio
+# Privacy / crypto
+PrivateInternetAccess.PrivateInternetAccess
+zkSNACKs.WasabiWallet
+# Hardware
+Corsair.iCUE.3
+Nvidia.PhysX
+# Misc
+7zip.7zip
+KDE.KDEConnect
+NirSoft.BlueScreenView
+Microsoft.OneDrive
+PDFLabs.PDFtk.Server
+
+[winget-work]
+# Work machines only. Populate from work machine.
+
+# ── macOS (Homebrew formulas) ─────────────────────────────────────────────────
+
+[brew-managers]
+# Tool managers: installed before other brew packages.
+mise
+
+[brew-common]
+# Installed on every macOS machine.
+git
+gh
+starship
+nushell
+helix
+lazygit
+yazi
+zoxide
+ripgrep
+fd
+fzf
+eza
+jq
+tlrc
+chezmoi
+
+[brew-personal]
+# Personal macOS machines — formulas.
+ffmpeg
+imagemagick
+go
+deno
+zig
+python@3.12
+gallery-dl
+yt-dlp
+make
+
+[brew-work]
+# Work macOS machines — formulas.
+
+# ── macOS (Homebrew casks) ────────────────────────────────────────────────────
+
+[brew-cask-common]
+cursor
+bitwarden
+
+[brew-cask-personal]
+firefox
+brave-browser
+google-chrome
+obsidian
+discord
+telegram
+vlc
+gimp
+qbittorrent
+obs
+lm-studio
+font-jetbrains-mono-nerd-font
+docker
+steam
+onlyoffice
+
+[brew-cask-work]
+# Work macOS machines — casks.
+
+# ── Language runtimes (mise) ──────────────────────────────────────────────────
+
+[mise]
+# Managed by mise. Run `mise install` after adding.
+# node@lts
+# python@3.12
+
+# ── Rust crates (cargo) ───────────────────────────────────────────────────────
+
+[cargo]
+# Installed via `cargo install` after rustup is set up.

@@ -1,0 +1,174 @@
+# Package declarations. Parsed by chezmoi — available as .packages.* in templates.
+# Install order enforced by script: managers → common → personal|work → cargo → mise.
+# Add packages here and run `chezmoi apply` to install.
+
+winget:
+  # Installed first — these are package/runtime managers themselves.
+  managers:
+    - Rustlang.Rustup
+    - jdx.mise
+
+  # Every Windows machine.
+  common:
+    - Git.Git
+    - GitHub.cli
+    - Microsoft.PowerShell
+    - Nushell.Nushell
+    - Starship.Starship
+    - Helix.Helix
+    - JesseDuffield.lazygit
+    - sxyazi.yazi
+    - ajeetdsouza.zoxide
+    - BurntSushi.ripgrep.MSVC
+    - sharkdp.fd
+    - junegunn.fzf
+    - eza-community.eza
+    - jqlang.jq
+    - tldr-pages.tlrc
+    - twpayne.chezmoi
+    - Bitwarden.CLI
+    - Microsoft.WindowsTerminal
+    - Anysphere.Cursor
+
+  personal:
+    # Browsers
+    - Ablaze.Floorp
+    - Mozilla.Firefox
+    - Google.Chrome
+    - Brave.Brave
+    # Communication
+    - Discord.Discord
+    - Telegram.TelegramDesktop
+    # Productivity
+    - Obsidian.Obsidian
+    - ONLYOFFICE.DesktopEditors
+    # Media
+    - VideoLAN.VLC
+    - OBSProject.OBSStudio
+    - GIMP.GIMP.3
+    - Gyan.FFmpeg
+    - ImageMagick.ImageMagick
+    - YACReader.YACReader
+    - mikf.gallery-dl
+    # Gaming
+    - Valve.Steam
+    - PrismLauncher.PrismLauncher
+    - ebkr.r2modman
+    # Dev
+    - GoLang.Go
+    - Python.Python.3.12
+    - DenoLand.Deno
+    - LLVM.LLVM
+    - GnuWin32.Make
+    - zig.zig
+    - uutils.coreutils
+    - Azul.Zulu.17.JRE
+    - MSYS2.MSYS2
+    - Canonical.Ubuntu
+    - Docker.DockerDesktop
+    - Docker.DockerCLI
+    - VSCodium.VSCodium
+    - DevToys-app.DevToys
+    # Desktop / window management
+    - glzr-io.glazewm
+    - Flow-Launcher.Flow-Launcher
+    - Microsoft.PowerToys
+    - AltSnap.AltSnap
+    - StefanSundin.Superf4
+    - RamenSoftware.Windhawk
+    - QL-Win.QuickLook
+    - ShareX.ShareX
+    # File management
+    - FilesCommunity.Files
+    - WinDirStat.WinDirStat
+    - RevoUninstaller.RevoUninstaller
+    # Misc
+    - Eugeny.Tabby
+    - DEVCOM.JetBrainsMonoNerdFont
+    - ElementLabs.LMStudio
+    - PrivateInternetAccess.PrivateInternetAccess
+    - zkSNACKs.WasabiWallet
+    - Corsair.iCUE.3
+    - Nvidia.PhysX
+    - 7zip.7zip
+    - KDE.KDEConnect
+    - NirSoft.BlueScreenView
+    - Microsoft.OneDrive
+    - PDFLabs.PDFtk.Server
+
+  work:
+    # Work-only Windows packages. Populate from work machine.
+    []
+
+brew:
+  # Installed first on macOS — package/runtime managers.
+  managers:
+    - mise
+
+  # Every macOS machine — formulas.
+  common:
+    - git
+    - gh
+    - starship
+    - nushell
+    - helix
+    - lazygit
+    - yazi
+    - zoxide
+    - ripgrep
+    - fd
+    - fzf
+    - eza
+    - jq
+    - tlrc
+    - chezmoi
+
+  personal:
+    - ffmpeg
+    - imagemagick
+    - go
+    - deno
+    - zig
+    - python@3.12
+    - gallery-dl
+    - yt-dlp
+    - make
+
+  work: []
+
+brew_cask:
+  # Every macOS machine — casks.
+  common:
+    - cursor
+    - bitwarden
+
+  personal:
+    - firefox
+    - brave-browser
+    - google-chrome
+    - obsidian
+    - discord
+    - telegram
+    - vlc
+    - gimp
+    - qbittorrent
+    - obs
+    - lm-studio
+    - font-jetbrains-mono-nerd-font
+    - docker
+    - steam
+    - onlyoffice
+
+  work: []
+
+# Rust crates installed via `cargo install` (after rustup).
+cargo:
+  common: []
+  personal: []
+  work: []
+
+# Language runtimes managed by mise.
+mise:
+  common: []
+  personal: []
+  work: []

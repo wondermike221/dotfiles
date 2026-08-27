@@ -1,87 +1,95 @@
 {{- if eq .chezmoi.os "darwin" -}}
+{{- $isWork := hasSuffix "mhixon" .chezmoi.username -}}
 #!/usr/bin/env bash
-# Managed by chezmoi. Re-runs when packages.txt changes.
-# packages: {{ include "packages.txt" | sha256sum }}
-
+# Managed by chezmoi — edit .chezmoidata/packages.yaml to change packages.
 set -uo pipefail
-IS_WORK=$(echo "$USER" | grep -qE "mhixon$" && echo true || echo false)
-PKGS="$HOME/packages.txt"
-
-# Extract non-blank, non-comment lines from a [section] block.
-get_pkgs() {
-    awk -v s="[$1]" '$0==s{f=1;next} /^\[/{f=0} f&&/^[^#[:space:]]/{print}' "$PKGS"
-}
-
-#── homebrew ─────────────────────────────────────────────────────────────────
-
-if ! command -v brew &>/dev/null; then
-    echo "==> installing homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    # Add brew to PATH for the rest of this script
-    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
-fi
 
 brew_install() {
     local name="$1" flag="${2:-}"
-    local list_flag="--formula"
-    [[ "$flag" == "--cask" ]] && list_flag="--cask"
+    local list_flag="--formula"; [[ "$flag" == "--cask" ]] && list_flag="--cask"
     if ! brew list "$list_flag" "$name" &>/dev/null 2>&1; then
         echo "  + $name"
         brew install $flag "$name" || echo "  ! failed: $name"
     fi
 }
 
-#── packages ─────────────────────────────────────────────────────────────────
+#── homebrew ──────────────────────────────────────────────────────────────────
 
-echo "==> brew: managers"
-while IFS= read -r p; do brew_install "$p"; done < <(get_pkgs "brew-managers")
-
-echo "==> brew: common"
-while IFS= read -r p; do brew_install "$p"; done         < <(get_pkgs "brew-common")
-while IFS= read -r p; do brew_install "$p" "--cask"; done < <(get_pkgs "brew-cask-common")
-
-if [[ "$IS_WORK" == "true" ]]; then
-    echo "==> brew: work"
-    while IFS= read -r p; do brew_install "$p"; done         < <(get_pkgs "brew-work")
-    while IFS= read -r p; do brew_install "$p" "--cask"; done < <(get_pkgs "brew-cask-work")
-else
-    echo "==> brew: personal"
-    while IFS= read -r p; do brew_install "$p"; done         < <(get_pkgs "brew-personal")
-    while IFS= read -r p; do brew_install "$p" "--cask"; done < <(get_pkgs "brew-cask-personal")
+if ! command -v brew &>/dev/null; then
+    echo "==> installing homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
 fi
 
-# cargo — after rustup/cargo is on PATH
-if command -v cargo &>/dev/null; then
-    mapfile -t cargo_pkgs < <(get_pkgs "cargo")
-    if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
+#── packages ──────────────────────────────────────────────────────────────────
+
+echo "==> brew: managers"
+{{ range .packages.brew.managers -}}
+brew_install "{{ . }}"
+{{ end }}
+echo "==> brew: common"
+{{ range .packages.brew.common -}}
+brew_install "{{ . }}"
+{{ end }}
+{{ range .packages.brew_cask.common -}}
+brew_install "{{ . }}" "--cask"
+{{ end }}
+{{ if $isWork -}}
+echo "==> brew: work"
+{{ range .packages.brew.work -}}
+brew_install "{{ . }}"
+{{ end }}
+{{ range .packages.brew_cask.work -}}
+brew_install "{{ . }}" "--cask"
+{{ end }}
+{{- else -}}
+echo "==> brew: personal"
+{{ range .packages.brew.personal -}}
+brew_install "{{ . }}"
+{{ end }}
+{{ range .packages.brew_cask.personal -}}
+brew_install "{{ . }}" "--cask"
+{{ end }}
+{{- end }}
+
+# cargo
+cargo_pkgs=(
+{{- range .packages.cargo.common }}  "{{ . }}"{{ end }}
+{{- if $isWork }}{{ range .packages.cargo.work }}  "{{ . }}"{{ end }}
+{{- else }}{{ range .packages.cargo.personal }}  "{{ . }}"{{ end }}{{ end }}
+)
+if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
+    if command -v cargo &>/dev/null; then
         echo "==> cargo"
         installed=$(cargo install --list 2>/dev/null)
         for p in "${cargo_pkgs[@]}"; do
             if ! echo "$installed" | grep -q "^$p "; then
-                echo "  + $p"
-                cargo install "$p" || echo "  ! failed: $p"
+                echo "  + $p"; cargo install "$p" || echo "  ! failed: $p"
             fi
         done
+    else
+        echo "  ! cargo not found — restart shell after rustup install"
     fi
-else
-    echo "  ! cargo not found — skipping (restart shell after rustup install)"
 fi
 
 # mise runtimes
-if command -v mise &>/dev/null; then
-    mapfile -t mise_runtimes < <(get_pkgs "mise")
-    if [[ ${#mise_runtimes[@]} -gt 0 ]]; then
+mise_runtimes=(
+{{- range .packages.mise.common }}  "{{ . }}"{{ end }}
+{{- if $isWork }}{{ range .packages.mise.work }}  "{{ . }}"{{ end }}
+{{- else }}{{ range .packages.mise.personal }}  "{{ . }}"{{ end }}{{ end }}
+)
+if [[ ${#mise_runtimes[@]} -gt 0 ]]; then
+    if command -v mise &>/dev/null; then
         echo "==> mise"
         for r in "${mise_runtimes[@]}"; do
-            echo "  ~ $r"
-            mise install "$r" || echo "  ! failed: $r"
+            echo "  ~ $r"; mise install "$r" || echo "  ! failed: $r"
         done
+    else
+        echo "  ! mise not found — install brew managers first"
     fi
-else
-    echo "  ! mise not found — skipping (install brew-managers first)"
 fi
 
-#── one-time setup ───────────────────────────────────────────────────────────
+#── one-time setup ────────────────────────────────────────────────────────────
 
 echo "==> neovim / lazyvim"
 if [[ ! -d "$HOME/.config/nvim" ]]; then
@@ -89,12 +97,8 @@ if [[ ! -d "$HOME/.config/nvim" ]]; then
 fi
 
 echo "==> env vars"
-# EDITOR: set in shell profile if nvim is available
-if command -v nvim &>/dev/null; then
-    profile="$HOME/.bashrc"
-    if ! grep -q 'EDITOR=nvim' "$profile" 2>/dev/null; then
-        echo 'export EDITOR=nvim' >> "$profile"
-        echo "  EDITOR=nvim added to $profile"
-    fi
+if command -v nvim &>/dev/null && ! grep -q 'EDITOR=nvim' "$HOME/.bashrc" 2>/dev/null; then
+    echo 'export EDITOR=nvim' >> "$HOME/.bashrc"
+    echo "  EDITOR=nvim → ~/.bashrc"
 fi
 {{- end -}}

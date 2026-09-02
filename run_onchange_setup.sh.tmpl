@@ -55,8 +55,14 @@ brew_install "{{ . }}" "--cask"
 # cargo
 cargo_pkgs=(
 {{- range .packages.cargo.common }}  "{{ . }}"{{ end }}
-{{- if $isWork }}{{ range .packages.cargo.work }}  "{{ . }}"{{ end }}
-{{- else }}{{ range .packages.cargo.personal }}  "{{ . }}"{{ end }}{{ end }}
+{{- range .packages.cargo_darwin.common }}  "{{ . }}"{{ end }}
+{{- if $isWork }}
+{{- range .packages.cargo.work }}  "{{ . }}"{{ end }}
+{{- range .packages.cargo_darwin.work }}  "{{ . }}"{{ end }}
+{{- else }}
+{{- range .packages.cargo.personal }}  "{{ . }}"{{ end }}
+{{- range .packages.cargo_darwin.personal }}  "{{ . }}"{{ end }}
+{{- end }}
 )
 if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
     if command -v cargo &>/dev/null; then

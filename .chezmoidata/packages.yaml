@@ -161,8 +161,21 @@ brew_cask:
 
   work: []
 
-# Rust crates installed via `cargo install` (after rustup).
+# Rust crates — installed on all platforms (after rustup).
 cargo:
+  common: []
+  personal: []
+  work: []
+
+# Rust crates — Windows only.
+cargo_windows:
+  common: []
+  personal:
+    - gat-gwm   # GlazeWM session tracker; referenced in glazewm startup_commands
+  work: []
+
+# Rust crates — macOS only.
+cargo_darwin:
   common: []
   personal: []
   work: []

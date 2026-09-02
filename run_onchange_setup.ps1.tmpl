@@ -35,8 +35,14 @@ Install-Winget "{{ . }}"
 # cargo — runs after rustup installed above
 $cargoPkgs = @(
 {{- range .packages.cargo.common }}    "{{ . }}"{{ end }}
-{{- if $isWork }}{{ range .packages.cargo.work }}    "{{ . }}"{{ end }}
-{{- else }}{{ range .packages.cargo.personal }}    "{{ . }}"{{ end }}{{ end }}
+{{- range .packages.cargo_windows.common }}    "{{ . }}"{{ end }}
+{{- if $isWork }}
+{{- range .packages.cargo.work }}    "{{ . }}"{{ end }}
+{{- range .packages.cargo_windows.work }}    "{{ . }}"{{ end }}
+{{- else }}
+{{- range .packages.cargo.personal }}    "{{ . }}"{{ end }}
+{{- range .packages.cargo_windows.personal }}    "{{ . }}"{{ end }}
+{{- end }}
 )
 if ($cargoPkgs.Count -gt 0) {
     if (Get-Command cargo -ErrorAction SilentlyContinue) {

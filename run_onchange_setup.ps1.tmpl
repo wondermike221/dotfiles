@@ -56,6 +56,24 @@ if ($cargoPkgs.Count -gt 0) {
     } else { Write-Warning "cargo not found — restart shell after rustup install" }
 }
 
+# cargo (git) — git-sourced crates
+$cargoGitPkgs = @(
+{{- range .packages.cargo_git.common }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- if $isWork }}{{ range .packages.cargo_git.work }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- else }}{{ range .packages.cargo_git.personal }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}{{ end }}
+)
+if ($cargoGitPkgs.Count -gt 0) {
+    if (Get-Command cargo -ErrorAction SilentlyContinue) {
+        Write-Host "==> cargo (git)"
+        $installed = cargo install --list 2>$null
+        $cargoGitPkgs | ForEach-Object {
+            if (-not ($installed | Select-String "^$([regex]::Escape($_.name)) ")) {
+                Write-Host "  + $($_.name)"; cargo install --git $_.url
+            }
+        }
+    } else { Write-Warning "cargo not found — restart shell after rustup install" }
+}
+
 # mise runtimes — runs after mise installed above
 $miseRuntimes = @(
 {{- range .packages.mise.common }}    "{{ . }}"{{ end }}

@@ -161,22 +161,31 @@ brew_cask:
 
   work: []
 
-# Rust crates — installed on all platforms (after rustup).
+# Rust crates — installed on all platforms via crates.io (after rustup).
 cargo:
   common: []
   personal: []
   work: []
 
-# Rust crates — Windows only.
+# Rust crates — Windows only, crates.io.
 cargo_windows:
   common: []
-  personal:
-    - gat-gwm   # GlazeWM session tracker; referenced in glazewm startup_commands
+  personal: []
   work: []
 
-# Rust crates — macOS only.
+# Rust crates — macOS only, crates.io.
 cargo_darwin:
   common: []
+  personal: []
+  work: []
+
+# Rust crates installed via git URL (`cargo install --git`).
+# Each entry: {name: binary-name, url: git-repo-url}
+# name is used to check if already installed; url for the install command.
+cargo_git:
+  common:
+    - name: glazetiler
+      url: https://github.com/Dutch-Raptor/glazetiler.git
   personal: []
   work: []
 

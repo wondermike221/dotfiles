@@ -78,6 +78,26 @@ if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
     fi
 fi
 
+# cargo (git) — git-sourced crates
+declare -A cargo_git_pkgs=(
+{{- range .packages.cargo_git.common }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
+{{- if $isWork }}{{ range .packages.cargo_git.work }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
+{{- else }}{{ range .packages.cargo_git.personal }}  ["{{ .name }}"]="{{ .url }}"{{ end }}{{ end }}
+)
+if [[ ${#cargo_git_pkgs[@]} -gt 0 ]]; then
+    if command -v cargo &>/dev/null; then
+        echo "==> cargo (git)"
+        installed=$(cargo install --list 2>/dev/null)
+        for name in "${!cargo_git_pkgs[@]}"; do
+            if ! echo "$installed" | grep -q "^$name "; then
+                echo "  + $name"; cargo install --git "${cargo_git_pkgs[$name]}" || echo "  ! failed: $name"
+            fi
+        done
+    else
+        echo "  ! cargo not found — restart shell after rustup install"
+    fi
+fi
+
 # mise runtimes
 mise_runtimes=(
 {{- range .packages.mise.common }}  "{{ . }}"{{ end }}

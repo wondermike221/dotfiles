@@ -13,7 +13,7 @@ function Resolve-ActiveProfile {
 
     if (-not (Test-Path $ProfilesIniPath)) { return $null }
 
-    $sections = @{}
+    $sections = [ordered]@{}
     $current = $null
     foreach ($line in Get-Content $ProfilesIniPath) {
         $trimmed = $line.Trim()

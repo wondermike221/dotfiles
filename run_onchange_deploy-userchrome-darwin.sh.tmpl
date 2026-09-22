@@ -1,0 +1,15 @@
+#!/bin/sh
+# Deploys userChrome.css to installed Firefox-family browser profiles on macOS.
+set -eu
+
+{{ template "userchrome-deploy.sh.tmpl" . }}
+
+css_content='{{ include ".chezmoitemplates/browser-chrome/userChrome.css" }}'
+
+browser_dirs="LibreWolf|$HOME/Library/Application Support/LibreWolf
+Firefox|$HOME/Library/Application Support/Firefox
+Floorp|$HOME/Library/Application Support/Floorp
+Waterfox|$HOME/Library/Application Support/Waterfox
+Zen|$HOME/Library/Application Support/Zen"
+
+deploy_userchrome "$browser_dirs" "$css_content"

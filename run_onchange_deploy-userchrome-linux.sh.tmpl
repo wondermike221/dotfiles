@@ -1,0 +1,15 @@
+#!/bin/sh
+# Deploys userChrome.css to installed Firefox-family browser profiles on Linux.
+set -eu
+
+{{ template "userchrome-deploy.sh.tmpl" . }}
+
+css_content='{{ include ".chezmoitemplates/browser-chrome/userChrome.css" }}'
+
+browser_dirs="LibreWolf|$HOME/.librewolf
+Firefox|$HOME/.mozilla/firefox
+Floorp|$HOME/.floorp
+Waterfox|$HOME/.waterfox
+Zen|$HOME/.zen"
+
+deploy_userchrome "$browser_dirs" "$css_content"

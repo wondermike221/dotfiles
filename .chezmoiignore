@@ -21,3 +21,11 @@
 
 # Planning/spec working notes — not deploy targets
 /docs/
+
+# userChrome deploy scripts — each only applies on its matching OS
+{{ if ne .chezmoi.os "darwin" }}
+deploy-userchrome-darwin.sh
+{{ end -}}
+{{ if ne .chezmoi.os "linux" }}
+deploy-userchrome-linux.sh
+{{ end -}}

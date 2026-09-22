@@ -1,0 +1,81 @@
+# Deploys userChrome.css to installed Firefox-family browser profiles on Windows.
+
+$ErrorActionPreference = 'Stop'
+
+$Browsers = @('LibreWolf', 'Firefox', 'Floorp', 'Waterfox', 'Zen')
+
+$CssContent = @'
+{{ include ".chezmoitemplates/browser-chrome/userChrome.css" }}
+'@
+
+function Resolve-ActiveProfile {
+    param([string]$ProfilesIniPath)
+
+    if (-not (Test-Path $ProfilesIniPath)) { return $null }
+
+    $sections = @{}
+    $current = $null
+    foreach ($line in Get-Content $ProfilesIniPath) {
+        $trimmed = $line.Trim()
+        if ($trimmed -match '^\[(.+)\]$') {
+            $current = $Matches[1]
+            $sections[$current] = @{}
+        } elseif ($current -and $trimmed -match '^([^=]+)=(.*)$') {
+            $sections[$current][$Matches[1]] = $Matches[2]
+        }
+    }
+
+    $installSection = $sections.Keys | Where-Object { $_ -like 'Install*' } | Select-Object -First 1
+    if ($installSection -and $sections[$installSection].ContainsKey('Default')) {
+        return $sections[$installSection]['Default']
+    }
+
+    $defaultProfile = $sections.Keys | Where-Object {
+        $_ -like 'Profile*' -and $sections[$_]['Default'] -eq '1'
+    } | Select-Object -First 1
+    if ($defaultProfile) {
+        return $sections[$defaultProfile]['Path']
+    }
+
+    return $null
+}
+
+function Deploy-UserChrome {
+    param(
+        [string]$BaseDir,
+        [string]$CssContent
+    )
+
+    foreach ($browser in $Browsers) {
+        $browserDir = Join-Path $BaseDir $browser
+        if (-not (Test-Path $browserDir)) { continue }
+
+        $profilesIni = Join-Path $browserDir 'profiles.ini'
+        try {
+            $relativeProfile = Resolve-ActiveProfile -ProfilesIniPath $profilesIni
+        } catch {
+            Write-Warning "$browser`: failed to parse profiles.ini: $_"
+            continue
+        }
+
+        if (-not $relativeProfile) {
+            Write-Warning "$browser`: no resolvable default profile in profiles.ini"
+            continue
+        }
+
+        $chromeDir = Join-Path (Join-Path $browserDir $relativeProfile) 'chrome'
+        try {
+            New-Item -ItemType Directory -Force -Path $chromeDir -ErrorAction Stop | Out-Null
+            Set-Content -Path (Join-Path $chromeDir 'userChrome.css') -Value $CssContent -NoNewline -ErrorAction Stop
+        } catch {
+            Write-Warning "$browser`: failed to write userChrome.css to $chromeDir`: $_"
+            continue
+        }
+
+        Write-Host "$browser`: wrote userChrome.css to $chromeDir"
+    }
+}
+
+if ($MyInvocation.InvocationName -ne '.') {
+    Deploy-UserChrome -BaseDir $env:APPDATA -CssContent $CssContent
+}

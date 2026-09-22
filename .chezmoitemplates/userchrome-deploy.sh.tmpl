@@ -14,7 +14,7 @@ resolve_active_profile() {
             if (section ~ /^Install/) {
                 if (install_default == "") install_default = val
             } else if (section ~ /^Profile/ && val == "1") {
-                default_profile_section = section
+                if (default_profile_section == "") default_profile_section = section
             }
         }
         /^Path[ \t]*=/ {

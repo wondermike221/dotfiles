@@ -1,5 +1,5 @@
 -- Managed by chezmoi — edit source at darwin_dot_hammerspoon/init.lua.tmpl
-IS_WORK = {{ eq .chezmoi.username "mhixon" }}
+IS_WORK = {{ hasSuffix "mhixon" .chezmoi.username }}
 
 hs.window.animationDuration = 0
 hs.hotkey.alertDuration = 0

@@ -16,6 +16,25 @@
 .claude/ide
 .claude/scheduled_tasks.json
 
+# Windows-only paths
+{{ if ne .chezmoi.os "windows" -}}
+.Autohotkey
+Documents/PowerShell
+OneDrive
+AppData
+.glzr
+.config/windows-terminal
+.winget-export.json
+setup.ps1
+terminal_settings.ps1
+{{ end -}}
+
+# macOS-only paths
+{{ if ne .chezmoi.os "darwin" -}}
+.hammerspoon
+.config/karabiner
+{{ end -}}
+
 # Test fixtures — not deploy targets
 /tests/
 

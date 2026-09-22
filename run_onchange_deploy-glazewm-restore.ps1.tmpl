@@ -1,3 +1,4 @@
+{{- if eq .chezmoi.os "windows" -}}
 # glazewm-restore deployment — run by chezmoi when this script changes.
 # chezmoi applies externals before run scripts, so the repo is already
 # up-to-date at ~/repos/glazewm-session-restore when this fires.
@@ -6,3 +7,4 @@
 #   version: 1
 
 & "$env:USERPROFILE\repos\glazewm-session-restore\deploy.ps1" -NonInteractive
+{{- end -}}

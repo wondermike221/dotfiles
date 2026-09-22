@@ -1,4 +1,4 @@
-{{- $isWork := eq .chezmoi.username "mhixon" -}}
+{{- $isWork := hasSuffix "mhixon" .chezmoi.username -}}
 {{- if eq .chezmoi.os "windows" }}
 [cd]
   command = "pwsh.exe"

@@ -1,0 +1,135 @@
+{{- if eq .chezmoi.os "windows" -}}
+{{- $isWork := hasSuffix "mhixon" .chezmoi.username -}}
+# Managed by chezmoi — edit .chezmoidata/packages.yaml to change packages.
+$ErrorActionPreference = "Continue"
+
+function Install-Winget([string]$id) {
+    if (-not (winget list --id $id --exact 2>$null | Select-String ([regex]::Escape($id)))) {
+        Write-Host "  + $id"
+        winget install --id $id --exact --accept-source-agreements --accept-package-agreements --silent
+    }
+}
+
+#region packages
+
+Write-Host "==> winget: managers"
+{{ range .packages.winget.managers -}}
+Install-Winget "{{ . }}"
+{{ end }}
+Write-Host "==> winget: common"
+{{ range .packages.winget.common -}}
+Install-Winget "{{ . }}"
+{{ end }}
+{{ if $isWork -}}
+Write-Host "==> winget: work"
+{{ range .packages.winget.work -}}
+Install-Winget "{{ . }}"
+{{ end }}
+{{- else -}}
+Write-Host "==> winget: personal"
+{{ range .packages.winget.personal -}}
+Install-Winget "{{ . }}"
+{{ end }}
+{{- end }}
+
+# cargo — runs after rustup installed above
+$cargoPkgs = @(
+{{- range .packages.cargo.common }}    "{{ . }}"{{ end }}
+{{- range .packages.cargo_windows.common }}    "{{ . }}"{{ end }}
+{{- if $isWork }}
+{{- range .packages.cargo.work }}    "{{ . }}"{{ end }}
+{{- range .packages.cargo_windows.work }}    "{{ . }}"{{ end }}
+{{- else }}
+{{- range .packages.cargo.personal }}    "{{ . }}"{{ end }}
+{{- range .packages.cargo_windows.personal }}    "{{ . }}"{{ end }}
+{{- end }}
+)
+if ($cargoPkgs.Count -gt 0) {
+    if (Get-Command cargo -ErrorAction SilentlyContinue) {
+        Write-Host "==> cargo"
+        $installed = cargo install --list 2>$null
+        $cargoPkgs | ForEach-Object {
+            if (-not ($installed | Select-String "^$([regex]::Escape($_)) ")) {
+                Write-Host "  + $_"; cargo install $_
+            }
+        }
+    } else { Write-Warning "cargo not found — restart shell after rustup install" }
+}
+
+# cargo (git) — git-sourced crates
+$cargoGitPkgs = @(
+{{- range .packages.cargo_git.common }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- if $isWork }}{{ range .packages.cargo_git.work }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- else }}{{ range .packages.cargo_git.personal }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}{{ end }}
+)
+if ($cargoGitPkgs.Count -gt 0) {
+    if (Get-Command cargo -ErrorAction SilentlyContinue) {
+        Write-Host "==> cargo (git)"
+        $installed = cargo install --list 2>$null
+        $cargoGitPkgs | ForEach-Object {
+            if (-not ($installed | Select-String "^$([regex]::Escape($_.name)) ")) {
+                Write-Host "  + $($_.name)"; cargo install --git $_.url
+            }
+        }
+    } else { Write-Warning "cargo not found — restart shell after rustup install" }
+}
+
+# mise runtimes — runs after mise installed above
+$miseRuntimes = @(
+{{- range .packages.mise.common }}    "{{ . }}"{{ end }}
+{{- if $isWork }}{{ range .packages.mise.work }}    "{{ . }}"{{ end }}
+{{- else }}{{ range .packages.mise.personal }}    "{{ . }}"{{ end }}{{ end }}
+)
+if ($miseRuntimes.Count -gt 0) {
+    if (Get-Command mise -ErrorAction SilentlyContinue) {
+        Write-Host "==> mise"
+        $miseRuntimes | ForEach-Object { Write-Host "  ~ $_"; mise install $_ }
+    } else { Write-Warning "mise not found — restart shell after mise install" }
+}
+
+#endregion
+
+#region one-time setup
+
+Write-Host "==> startup shortcuts"
+$startupFolder = [Environment]::GetFolderPath('Startup')
+function New-Shortcut([string]$lnk, [string]$target) {
+    if (-not (Test-Path $lnk) -and (Test-Path $target)) {
+        $ws = New-Object -ComObject WScript.Shell
+        $s  = $ws.CreateShortcut($lnk); $s.TargetPath = $target; $s.Save()
+        Write-Host "  + $lnk"
+    }
+}
+New-Shortcut "$startupFolder\start.bat.lnk"  "$HOME\.Autohotkey\start.bat"
+New-Shortcut "$startupFolder\glazewm.exe.lnk" "C:\Program Files\glzr.io\GlazeWM\cli\glazewm.exe"
+
+Write-Host "==> env vars"
+$nvimPath = (Get-Command nvim -ErrorAction SilentlyContinue)?.Source
+if ($nvimPath -and [Environment]::GetEnvironmentVariable("EDITOR", "User") -ne $nvimPath) {
+    [Environment]::SetEnvironmentVariable("EDITOR", $nvimPath, "User")
+    Write-Host "  EDITOR=$nvimPath"
+}
+if ([Environment]::GetEnvironmentVariable("YAZI_CONFIG_HOME", "User") -ne "~\.config\yazi") {
+    [Environment]::SetEnvironmentVariable("YAZI_CONFIG_HOME", "~\.config\yazi", "User")
+    Write-Host "  YAZI_CONFIG_HOME=~\.config\yazi"
+}
+
+Write-Host "==> neovim / lazyvim"
+if (-not (Test-Path "$HOME\.config\nvim")) {
+    git clone https://github.com/wondermike221/nvim-config "$HOME\.config\nvim"
+}
+if ((Test-Path "$HOME\.config\nvim") -and (-not (Test-Path "$env:LOCALAPPDATA\nvim"))) {
+    New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.config\nvim"
+    Write-Host "  junction: $env:LOCALAPPDATA\nvim"
+}
+
+Write-Host "==> system"
+try {
+    if ((Get-Service -Name diagtrack -ErrorAction SilentlyContinue)?.StartupType -ne "Disabled") {
+        sudo powershell -Command "Set-Service -Name diagtrack -StartupType Disabled"
+        Write-Host "  diagtrack disabled"
+    }
+} catch { Write-Warning "Could not disable diagtrack: $_" }
+
+#endregion
+{{- end -}}

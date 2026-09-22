@@ -17,4 +17,4 @@
 .claude/scheduled_tasks.json
 
 # Test fixtures — not deploy targets
-tests/
+/tests/

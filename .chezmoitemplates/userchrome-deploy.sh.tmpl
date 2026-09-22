@@ -1,0 +1,63 @@
+resolve_active_profile() {
+    ini_path="$1"
+    [ -f "$ini_path" ] || return 1
+
+    result=$(awk '
+        /^\[/ {
+            section = $0
+            gsub(/^\[|\][ \t\r]*$/, "", section)
+            next
+        }
+        /^Default[ \t]*=/ {
+            val = substr($0, index($0, "=") + 1)
+            gsub(/[\r\n]/, "", val)
+            if (section ~ /^Install/) {
+                if (install_default == "") install_default = val
+            } else if (section ~ /^Profile/ && val == "1") {
+                default_profile_section = section
+            }
+        }
+        /^Path[ \t]*=/ {
+            val = substr($0, index($0, "=") + 1)
+            gsub(/[\r\n]/, "", val)
+            path_by_section[section] = val
+        }
+        END {
+            if (install_default != "") {
+                print install_default
+            } else if (default_profile_section != "" && (default_profile_section in path_by_section)) {
+                print path_by_section[default_profile_section]
+            }
+        }
+    ' "$ini_path")
+
+    [ -n "$result" ] || return 1
+    printf '%s' "$result"
+}
+
+deploy_userchrome() {
+    pairs="$1"
+    css_content="$2"
+
+    printf '%s\n' "$pairs" | while IFS='|' read -r browser browser_dir; do
+        [ -n "$browser" ] || continue
+        [ -d "$browser_dir" ] || continue
+
+        profiles_ini="$browser_dir/profiles.ini"
+        if ! relative_profile=$(resolve_active_profile "$profiles_ini"); then
+            echo "warning: $browser: no resolvable default profile in profiles.ini" >&2
+            continue
+        fi
+
+        chrome_dir="$browser_dir/$relative_profile/chrome"
+        if ! mkdir -p "$chrome_dir" 2>/dev/null; then
+            echo "warning: $browser: failed to create $chrome_dir" >&2
+            continue
+        fi
+        if ! printf '%s' "$css_content" > "$chrome_dir/userChrome.css" 2>/dev/null; then
+            echo "warning: $browser: failed to write userChrome.css to $chrome_dir" >&2
+            continue
+        fi
+        echo "$browser: wrote userChrome.css to $chrome_dir"
+    done
+}

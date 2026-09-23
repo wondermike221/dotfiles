@@ -13,35 +13,35 @@ function Install-Winget([string]$id) {
 #region packages
 
 Write-Host "==> winget: managers"
-{{ range .packages.winget.managers -}}
+{{ range .winget.managers -}}
 Install-Winget "{{ . }}"
 {{ end }}
 Write-Host "==> winget: common"
-{{ range .packages.winget.common -}}
+{{ range .winget.common -}}
 Install-Winget "{{ . }}"
 {{ end }}
 {{ if $isWork -}}
 Write-Host "==> winget: work"
-{{ range .packages.winget.work -}}
+{{ range .winget.work -}}
 Install-Winget "{{ . }}"
 {{ end }}
 {{- else -}}
 Write-Host "==> winget: personal"
-{{ range .packages.winget.personal -}}
+{{ range .winget.personal -}}
 Install-Winget "{{ . }}"
 {{ end }}
 {{- end }}
 
 # cargo — runs after rustup installed above
 $cargoPkgs = @(
-{{- range .packages.cargo.common }}    "{{ . }}"{{ end }}
-{{- range .packages.cargo_windows.common }}    "{{ . }}"{{ end }}
+{{- range .cargo.common }}    "{{ . }}"{{ end }}
+{{- range .cargo_windows.common }}    "{{ . }}"{{ end }}
 {{- if $isWork }}
-{{- range .packages.cargo.work }}    "{{ . }}"{{ end }}
-{{- range .packages.cargo_windows.work }}    "{{ . }}"{{ end }}
+{{- range .cargo.work }}    "{{ . }}"{{ end }}
+{{- range .cargo_windows.work }}    "{{ . }}"{{ end }}
 {{- else }}
-{{- range .packages.cargo.personal }}    "{{ . }}"{{ end }}
-{{- range .packages.cargo_windows.personal }}    "{{ . }}"{{ end }}
+{{- range .cargo.personal }}    "{{ . }}"{{ end }}
+{{- range .cargo_windows.personal }}    "{{ . }}"{{ end }}
 {{- end }}
 )
 if ($cargoPkgs.Count -gt 0) {
@@ -58,9 +58,9 @@ if ($cargoPkgs.Count -gt 0) {
 
 # cargo (git) — git-sourced crates
 $cargoGitPkgs = @(
-{{- range .packages.cargo_git.common }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
-{{- if $isWork }}{{ range .packages.cargo_git.work }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
-{{- else }}{{ range .packages.cargo_git.personal }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}{{ end }}
+{{- range .cargo_git.common }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- if $isWork }}{{ range .cargo_git.work }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}
+{{- else }}{{ range .cargo_git.personal }}    [pscustomobject]@{name="{{ .name }}"; url="{{ .url }}"}{{ end }}{{ end }}
 )
 if ($cargoGitPkgs.Count -gt 0) {
     if (Get-Command cargo -ErrorAction SilentlyContinue) {
@@ -76,9 +76,9 @@ if ($cargoGitPkgs.Count -gt 0) {
 
 # mise runtimes — runs after mise installed above
 $miseRuntimes = @(
-{{- range .packages.mise.common }}    "{{ . }}"{{ end }}
-{{- if $isWork }}{{ range .packages.mise.work }}    "{{ . }}"{{ end }}
-{{- else }}{{ range .packages.mise.personal }}    "{{ . }}"{{ end }}{{ end }}
+{{- range .mise.common }}    "{{ . }}"{{ end }}
+{{- if $isWork }}{{ range .mise.work }}    "{{ . }}"{{ end }}
+{{- else }}{{ range .mise.personal }}    "{{ . }}"{{ end }}{{ end }}
 )
 if ($miseRuntimes.Count -gt 0) {
     if (Get-Command mise -ErrorAction SilentlyContinue) {

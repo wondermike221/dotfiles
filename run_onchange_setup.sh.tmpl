@@ -24,44 +24,44 @@ fi
 #── packages ──────────────────────────────────────────────────────────────────
 
 echo "==> brew: managers"
-{{ range .packages.brew.managers -}}
+{{ range .brew.managers -}}
 brew_install "{{ . }}"
 {{ end }}
 echo "==> brew: common"
-{{ range .packages.brew.common -}}
+{{ range .brew.common -}}
 brew_install "{{ . }}"
 {{ end }}
-{{ range .packages.brew_cask.common -}}
+{{ range .brew_cask.common -}}
 brew_install "{{ . }}" "--cask"
 {{ end }}
 {{ if $isWork -}}
 echo "==> brew: work"
-{{ range .packages.brew.work -}}
+{{ range .brew.work -}}
 brew_install "{{ . }}"
 {{ end }}
-{{ range .packages.brew_cask.work -}}
+{{ range .brew_cask.work -}}
 brew_install "{{ . }}" "--cask"
 {{ end }}
 {{- else -}}
 echo "==> brew: personal"
-{{ range .packages.brew.personal -}}
+{{ range .brew.personal -}}
 brew_install "{{ . }}"
 {{ end }}
-{{ range .packages.brew_cask.personal -}}
+{{ range .brew_cask.personal -}}
 brew_install "{{ . }}" "--cask"
 {{ end }}
 {{- end }}
 
 # cargo
 cargo_pkgs=(
-{{- range .packages.cargo.common }}  "{{ . }}"{{ end }}
-{{- range .packages.cargo_darwin.common }}  "{{ . }}"{{ end }}
+{{- range .cargo.common }}  "{{ . }}"{{ end }}
+{{- range .cargo_darwin.common }}  "{{ . }}"{{ end }}
 {{- if $isWork }}
-{{- range .packages.cargo.work }}  "{{ . }}"{{ end }}
-{{- range .packages.cargo_darwin.work }}  "{{ . }}"{{ end }}
+{{- range .cargo.work }}  "{{ . }}"{{ end }}
+{{- range .cargo_darwin.work }}  "{{ . }}"{{ end }}
 {{- else }}
-{{- range .packages.cargo.personal }}  "{{ . }}"{{ end }}
-{{- range .packages.cargo_darwin.personal }}  "{{ . }}"{{ end }}
+{{- range .cargo.personal }}  "{{ . }}"{{ end }}
+{{- range .cargo_darwin.personal }}  "{{ . }}"{{ end }}
 {{- end }}
 )
 if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
@@ -80,9 +80,9 @@ fi
 
 # cargo (git) — git-sourced crates
 declare -A cargo_git_pkgs=(
-{{- range .packages.cargo_git.common }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
-{{- if $isWork }}{{ range .packages.cargo_git.work }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
-{{- else }}{{ range .packages.cargo_git.personal }}  ["{{ .name }}"]="{{ .url }}"{{ end }}{{ end }}
+{{- range .cargo_git.common }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
+{{- if $isWork }}{{ range .cargo_git.work }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
+{{- else }}{{ range .cargo_git.personal }}  ["{{ .name }}"]="{{ .url }}"{{ end }}{{ end }}
 )
 if [[ ${#cargo_git_pkgs[@]} -gt 0 ]]; then
     if command -v cargo &>/dev/null; then
@@ -100,9 +100,9 @@ fi
 
 # mise runtimes
 mise_runtimes=(
-{{- range .packages.mise.common }}  "{{ . }}"{{ end }}
-{{- if $isWork }}{{ range .packages.mise.work }}  "{{ . }}"{{ end }}
-{{- else }}{{ range .packages.mise.personal }}  "{{ . }}"{{ end }}{{ end }}
+{{- range .mise.common }}  "{{ . }}"{{ end }}
+{{- if $isWork }}{{ range .mise.work }}  "{{ . }}"{{ end }}
+{{- else }}{{ range .mise.personal }}  "{{ . }}"{{ end }}{{ end }}
 )
 if [[ ${#mise_runtimes[@]} -gt 0 ]]; then
     if command -v mise &>/dev/null; then

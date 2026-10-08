@@ -52,7 +52,8 @@ brew_install "{{ . }}" "--cask"
 {{ end }}
 {{- end }}
 
-# cargo
+# cargo — brew's rustup doesn't create ~/.cargo/bin shims, so fall back to rustup which
+_cargo=$(command -v cargo 2>/dev/null || rustup which cargo 2>/dev/null || echo "")
 cargo_pkgs=(
 {{- range .cargo.common }}  "{{ . }}"{{ end }}
 {{- range .cargo_darwin.common }}  "{{ . }}"{{ end }}
@@ -65,12 +66,12 @@ cargo_pkgs=(
 {{- end }}
 )
 if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
-    if command -v cargo &>/dev/null; then
+    if [[ -n "$_cargo" ]]; then
         echo "==> cargo"
-        installed=$(cargo install --list 2>/dev/null)
+        installed=$("$_cargo" install --list 2>/dev/null)
         for p in "${cargo_pkgs[@]}"; do
             if ! echo "$installed" | grep -q "^$p "; then
-                echo "  + $p"; cargo install "$p" || echo "  ! failed: $p"
+                echo "  + $p"; "$_cargo" install "$p" || echo "  ! failed: $p"
             fi
         done
     else
@@ -78,19 +79,26 @@ if [[ ${#cargo_pkgs[@]} -gt 0 ]]; then
     fi
 fi
 
-# cargo (git) — git-sourced crates
-declare -A cargo_git_pkgs=(
-{{- range .cargo_git.common }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
-{{- if $isWork }}{{ range .cargo_git.work }}  ["{{ .name }}"]="{{ .url }}"{{ end }}
-{{- else }}{{ range .cargo_git.personal }}  ["{{ .name }}"]="{{ .url }}"{{ end }}{{ end }}
+# cargo (git) — git-sourced crates (parallel arrays for bash 3.x compat)
+cargo_git_names=(
+{{- range .cargo_git.common }}  "{{ .name }}"{{ end }}
+{{- if $isWork }}{{ range .cargo_git.work }}  "{{ .name }}"{{ end }}
+{{- else }}{{ range .cargo_git.personal }}  "{{ .name }}"{{ end }}{{ end }}
 )
-if [[ ${#cargo_git_pkgs[@]} -gt 0 ]]; then
-    if command -v cargo &>/dev/null; then
+cargo_git_urls=(
+{{- range .cargo_git.common }}  "{{ .url }}"{{ end }}
+{{- if $isWork }}{{ range .cargo_git.work }}  "{{ .url }}"{{ end }}
+{{- else }}{{ range .cargo_git.personal }}  "{{ .url }}"{{ end }}{{ end }}
+)
+if [[ ${#cargo_git_names[@]} -gt 0 ]]; then
+    if [[ -n "$_cargo" ]]; then
         echo "==> cargo (git)"
-        installed=$(cargo install --list 2>/dev/null)
-        for name in "${!cargo_git_pkgs[@]}"; do
+        installed=$("$_cargo" install --list 2>/dev/null)
+        for i in "${!cargo_git_names[@]}"; do
+            name="${cargo_git_names[$i]}"
+            url="${cargo_git_urls[$i]}"
             if ! echo "$installed" | grep -q "^$name "; then
-                echo "  + $name"; cargo install --git "${cargo_git_pkgs[$name]}" || echo "  ! failed: $name"
+                echo "  + $name"; "$_cargo" install --git "$url" || echo "  ! failed: $name"
             fi
         done
     else

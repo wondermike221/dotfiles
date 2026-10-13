@@ -18,6 +18,9 @@ Function l {eza -lh}
 Function la {eza -alh}
 Function lt {eza --tree --git-ignore}
 
+#register env for vite plus
+. 'C:\Users\mhixon\AppData\Roaming\vite-plus\env.ps1'
+
 Function wua {
   winget update --all --include-unknown --accept-source-agreements --accept-package-agreements
   Sync-WinGetLinks

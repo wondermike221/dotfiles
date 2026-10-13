@@ -154,13 +154,13 @@ ToolTipOptions.SetColors("Default", "Default") ; background, font
 ; MARK: Hotstring/Hotkey 
 ;===================================================================
 
-:?*B0:;d:: {
+:?*B0C:;d:: {
     global sMode := "standard"
     sFormat := TypeOutFormat
     SendDateHS(sFormat, sMode)
 }
 
-!;:: { ; hide
+:?*B0C:;D:: {
     global sMode := "alternate"
     sFormat := TypeOutAltFormat
     SendDateHS(sFormat, sMode)
@@ -176,16 +176,6 @@ KeysReturn(sOptions := "", sEnd := "{Any}") {
 }
 
 SendDateHS(sFormat, sMode) {
-    if sMode = "alternate" { ;for alternate format, first need to check if it's ;d or ;other
-        sTest := KeysReturn("L1", "{Any}")[1]
-        if sTest = "d" {
-            SendInput(";d")
-        } else {
-            ; User pressed Alt+; followed by something other than "d"
-            SendInput(";" sTest)
-            return
-        }
-    }
     aInput := KeysReturn("L5 V1 I2", "{Space}{Enter}.") ; max is 5 characters to return e.g. '-10we'.
     sInput := aInput[1]
     sEnd := aInput[2]
@@ -201,14 +191,8 @@ SendDateHS(sFormat, sMode) {
     }
     MyDate := GetMyDate(sInput, sFormat)
     ; Check if the result is the original input (indicating an error or invalid character)
-    if (MyDate = ";d" sInput) {
-        if sMode = "standard" { ; Do nothing - leave the original input in place
-            return
-        } else { ; In alternate mode, just send "d" since we haven't sent ";d" yet
-            SendInput("d" sInput)
-            return
-        }
-    }
+    if (MyDate = ";d" sInput)
+        return
     iInput := StrLen(sInput)
     if sEnd = "Max" ;change # of backspaces and include the EndKey depending on how KeysReturn was ended.
         SendInput("{backspace " iInput + 2 "}" MyDate "{" sEndKey "}")  ; +2 for ";d"

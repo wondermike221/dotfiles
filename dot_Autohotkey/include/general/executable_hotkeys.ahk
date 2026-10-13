@@ -17,17 +17,7 @@ ToggleApp() {
 TimeNow() {
   Send(A_Hour . ":" A_Min)
 }
-TodaysDate() {
-  Send(FormatTime(, "MM/d/yy"))  ; It will look like 9/1/2005 3:53 PM
-}
-FileFriendlyDate() {
-  Send(FormatTime(, "yyyy-MM-d"))
-}
-:X:]d::(TodaysDate())
-^;::TodaysDate()
-^+;::FileFriendlyDate()
 :X:]now::(TimeNow())
-:X:]fd::FileFriendlyDate()
 
 ^+WheelUp::SendInput("^+{Tab}")
 ^+WheelDown::SendInput("^{Tab}")

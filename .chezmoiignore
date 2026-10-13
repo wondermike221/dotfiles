@@ -36,10 +36,10 @@ terminal_settings.ps1
 {{ end -}}
 
 # Test fixtures — not deploy targets
-/tests/
+tests/
 
 # Planning/spec working notes — not deploy targets
-/docs/
+docs/
 
 # userChrome deploy scripts — each only applies on its matching OS
 {{ if ne .chezmoi.os "darwin" }}

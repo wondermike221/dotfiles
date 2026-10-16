@@ -8,8 +8,7 @@
     "ANTHROPIC_BASE_URL": "https://platformgateway2.vip.ebay.com/hubgptgatewaysvc/v1/anthropic",
     "CLAUDE_CODE_API_KEY_HELPER_TTL_MS": "360000000",
     "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
-    "ENABLE_TOOL_SEARCH": "0",
-    "DISABLE_TELEMETRY": "1"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5"
   },
   "enabledPlugins": {
     "obsidian@obsidian-skills": true,
@@ -58,7 +57,18 @@
         "repo": "Egonex-AI/Understand-Anything"
       }
     }
-  }
+  },
+  "model": "claude-sonnet-5",
+  "availableModels": [
+    "claude-sonnet-4-6[1m]",
+    "claude-haiku-4-5",
+    "claude-sonnet-4-6",
+    "claude-sonnet-5[1m]",
+    "claude-sonnet-5",
+    "claude-opus-4-8[1m]",
+    "claude-opus-4-8",
+    "claude-opus-5"
+  ]
 }
 {{- else -}}
 {

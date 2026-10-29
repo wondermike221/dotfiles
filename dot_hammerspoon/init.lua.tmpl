@@ -9,6 +9,7 @@ hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", hs.reload):start()
 
 local hotkeys = require("modules.hotkeys")
 local hotstrings = require("modules.hotstrings")
+require("modules.string_utils")
 
 hotstrings.start()
 

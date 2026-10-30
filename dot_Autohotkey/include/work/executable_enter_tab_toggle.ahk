@@ -10,15 +10,15 @@ global scanCounter := 0            ; Counts Enter presses while toggle is ON
 
     if (enterTabToggle) {
         scanCounter := 0
-        Hotkey("Enter", EnterAsTab, "On")  ; Turn on custom Enter functionality
 
-        ; Ask whether to enable the auto Down+Home behavior
+        ; Ask before activating so Tab/Enter work normally in the dialog
         choice := MsgBox(
-            "Enter will now be Tab.`n`nEnable auto Down+Home after every second scan?",
+            "Enable auto Down+Home after every second scan?",
             "Enter→Tab Toggle",
             "YesNo"
         )
         autoNavToggle := (choice = "Yes")
+        Hotkey("Enter", EnterAsTab, "On")  ; Activate only after dialog is dismissed
     } else {
         Hotkey("Enter", EnterAsTab, "Off") ; Turn off custom Enter functionality
         autoNavToggle := false
